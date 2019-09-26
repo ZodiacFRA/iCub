@@ -1,0 +1,41 @@
+#ifndef ROBOT_HPP
+#define ROBOT_HPP
+
+#include "common.hpp"
+
+#include "VisionController.hpp"
+#include "RecognitionController.hpp"
+#include "LogicController.hpp"
+#include "OrganController.hpp"
+
+using namespace yarp::os;
+using namespace yarp::sig;
+using namespace yarp::dev;
+
+
+class Robot {
+private:
+	Network _yarp;  // Yarp instance
+	ImageOf<PixelRgb> _image;  // image storage, Vision->Attention
+	std::vector<Vector> _faces;  // Detected faces positions
+	std::vector<Vector> _objects;  // Detected objects positions
+	std::map<std::string, Vector> _moves;  // Moves to be sent
+
+	VisionController _vision;  // Gets robot's vision
+	RecognitionController _recognizer;  // Recognition driver
+	LogicController _logic;
+	std::map<std::string, OrganController *> _organs;  // Organs drivers
+
+
+public:
+	Robot();
+	~Robot();
+	int init();
+
+	int launch();
+	void resetMoves();
+	void handleMoves();
+};
+
+
+#endif
