@@ -24,8 +24,7 @@ private:
 	VisionController _vision;  // Gets robot's vision
 	RecognitionController _recognizer;  // Recognition driver
 	LogicController _logic;
-	std::map<std::string, OrganController *> _organs;  // Organs drivers
-
+	OrgansController _organs;  // Motors drivers
 
 public:
 	Robot();

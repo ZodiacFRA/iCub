@@ -7,30 +7,10 @@ using namespace yarp::dev;
 
 Robot::Robot()
 {
-	_organs.emplace("head",
-					new OrganController("/icubSim/head"));
-	// _organs.emplace("left_arm",
-	// 				new OrganController("/icubSim/left_arm"));
-}
-
-Robot::~Robot()
-{
-	// if (_image)
-	// 	delete _image;
-	// if (_faces)
-	// 	delete _faces;
-	// if (_objects)
-	// 	delete _objects;
-	// if (_vision)
-	// 	delete _vision;
-	// if (_recognizer)
-	// 	delete recognizer;
-	// if (_logic)
-	// 	delete _logic;
-	for (auto it : _organs) {
-		if (it.second)
-			delete it.second;
-	}
+	std::vector<std::string> interfaces;
+	interfaces.push_back("/icubSim/head");
+	interfaces.push_back("/icubSim/left_arm");
+	_organs(interfaces);
 }
 
 int Robot::init()
@@ -38,17 +18,16 @@ int Robot::init()
 	if (!_vision.init()) {
 		printf("%sVision Controller init failed%s\n", COLOR_RED, COLOR_RESET);
 		return FAILURE;
-	}
-	if (!_recognizer.init()) {
+	} else if (!_recognizer.init()) {
 		printf("%Recognition Controller init failed%s\n", COLOR_RED, COLOR_RESET);
 		return FAILURE;
+	// Logic class does not need any init (so far)
+	} else if (!_organs.init()) {
+		// Error message is printed in class to get the interface failure name
+		return FAILURE;
+	} else {
+		return SUCCESS;
 	}
-	for (auto it : _organs) {
-		if (!it.second->init())
-			printf("%s%s Organ Controller init failed%s\n", it.first, COLOR_RED, COLOR_RESET);
-			return FAILURE;
-	}
-	return SUCCESS;
 }
 
 // Get robot's view, search target and look at it if found
@@ -66,7 +45,7 @@ int Robot::launch()
 		// _organs is given to get all available interfaces
 		this->_logic.think(_faces, _objects, _moves, _organs);
 
-		handleMoves()
+		this->_organs.move(_moves);
 }
 
 void Robot::resetMoves()
