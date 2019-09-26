@@ -29,7 +29,7 @@ int OrganController::move(Vector &targetPos)
 }
 
 
-int OrganController::initDriver()
+int OrganController::init()
 {
 	// create the options struct needed by the _driver constructor
 	Property options;
@@ -65,7 +65,7 @@ int OrganController::initDriver()
 }
 
 
-OrganController::OrganController(char const *remoteTarget)
+OrganController::OrganController(std::string &remoteTarget)
 	: _remoteTarget(remoteTarget)
 {}
 

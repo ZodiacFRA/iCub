@@ -5,6 +5,10 @@ using namespace yarp::sig;
 using namespace yarp::dev;
 
 
+VisionController::VisionController()
+	: _receiveFlag(false)
+{}
+
 int VisionController::init()
 {
 	// open image input port
@@ -14,12 +18,12 @@ int VisionController::init()
 	return SUCCESS;
 }
 
-// Read the input image buffer, store it in _image
-int VisionController::getRobotView()
+// Read the input image buffer, store it in image
+int VisionController::getRobotView(ImageOf<PixelRgb> *image)
 {
-	_image = _imagePort.read();
+	image = _imagePort.read();
 
-	if (_image == NULL) { // check we actually got something
+	if (image == NULL) { // check we actually got something
 		if (_receiveFlag) {
 			printf("%sNo video stream%s\n", COLOR_YELLOW, COLOR_RESET);
 			_receiveFlag = false;
@@ -29,8 +33,8 @@ int VisionController::getRobotView()
 	if (!_receiveFlag) {
 		printf("%sReceiving image: %dpx x %dpx %s\n",
 			COLOR_GREEN,
-			_image->width(),
-			_image->height(),
+			image->width(),
+			image->height(),
 			COLOR_RESET
 		);
 		_receiveFlag = true;

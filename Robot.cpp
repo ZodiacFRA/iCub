@@ -6,11 +6,20 @@ using namespace yarp::dev;
 
 
 Robot::Robot()
+	: _image()
 {
 	std::vector<std::string> interfaces;
 	interfaces.push_back("/icubSim/head");
 	interfaces.push_back("/icubSim/left_arm");
-	_organs(interfaces);
+	_organs = new OrgansController(interfaces);
+}
+
+Robot::~Robot()
+{
+	if (_image)
+		delete _image;
+	if (_organs)
+		delete _organs;
 }
 
 int Robot::init()
@@ -21,8 +30,8 @@ int Robot::init()
 	} else if (!_recognizer.init()) {
 		printf("%Recognition Controller init failed%s\n", COLOR_RED, COLOR_RESET);
 		return FAILURE;
-	// Logic class does not need any init (so far)
-	} else if (!_organs.init()) {
+		// Logic class does not need any init (so far)
+	} else if (!_organs->init()) {
 		// Error message is printed in class to get the interface failure name
 		return FAILURE;
 	} else {
@@ -43,9 +52,10 @@ int Robot::launch()
 
 		resetMoves();
 		// _organs is given to get all available interfaces
-		this->_logic.think(_faces, _objects, _moves, _organs);
+		this->_logic.think(_faces, _objects, _moves, _organs->getInterfaces());
 
-		this->_organs.move(_moves);
+		this->_organs->move(_moves);
+	}
 }
 
 void Robot::resetMoves()
@@ -54,9 +64,4 @@ void Robot::resetMoves()
 		it.second[0] = 0;
 		it.second[1] = 0;
 	}
-}
-
-void Robot::handleMoves()
-{
-	// send each move category to its Controller
 }

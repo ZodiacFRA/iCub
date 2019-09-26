@@ -9,12 +9,13 @@ using namespace yarp::dev;
 
 class VisionController {
 private:
-	BufferedPort<ImageOf<PixelRgb> > _imagePort;  // image input port
 	bool _receiveFlag;  // only used to reduce console I/O
+	BufferedPort<ImageOf<PixelRgb> > _imagePort;  // image input port
 
 public:
+	VisionController();
 	int init();
-	int getRobotView();
+	int getRobotView(ImageOf<PixelRgb> *);
 
 };
 

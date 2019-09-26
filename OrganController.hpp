@@ -19,10 +19,10 @@ private:
 	std::string 		_remoteTarget;
 
 public:
-	OrganController(char const*);
+	OrganController(std::string &);
 	virtual ~OrganController();
 
-	int initDriver();
+	int init();
 	int move(Vector &);
 };
 

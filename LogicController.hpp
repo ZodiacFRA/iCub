@@ -3,6 +3,11 @@
 
 #include "common.hpp"
 
+using namespace yarp::os;
+using namespace yarp::sig;
+using namespace yarp::dev;
+
+
 class LogicController {
 private:
 	/* data */
@@ -10,6 +15,7 @@ private:
 public:
 	// LogicController (arguments);
 	// virtual ~LogicController ();
+	int think(std::vector<Vector> &, std::vector<Vector> &, std::map<std::string, Vector> &, std::vector<std::string> &);
 };
 
 #endif

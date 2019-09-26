@@ -1,24 +1,33 @@
 #include "RecognitionController.hpp"
 
+using namespace yarp::os;
+using namespace yarp::sig;
+using namespace yarp::dev;
 
-int RecognitionController::recognize(ImageOf<PixelRgb> &image,
-	std::vector<Vector> &_faces, std::vector<Vector> &_objects)
+
+int RecognitionController::init()
 {
-
 	return SUCCESS;
 }
 
-// Find position of the target in _image (will fail with multiple targets)
-int RecognitionController::getBlueTargetPosition(std::vector<Vector> &_objects)
+int RecognitionController::recognize(ImageOf<PixelRgb> *image,
+	std::vector<Vector> &faces, std::vector<Vector> &objects)
+{
+	getBlueTargetPosition(image, objects);
+	return SUCCESS;
+}
+
+// Find position of the target in image (will fail with multiple targets)
+int RecognitionController::getBlueTargetPosition(ImageOf<PixelRgb> *image, std::vector<Vector> &_objects)
 {
 	double xMean = 0;
 	double yMean = 0;
 	int bluePixelsCount = 0;
 	Vector tmp;
 	tmp.resize(3);
-	for (int x = 0; x < _image->width(); x++) {
-		for (int y = 0; y < _image->height(); y++) {
-			PixelRgb& pixel = _image->pixel(x, y);
+	for (int x = 0; x < image->width(); x++) {
+		for (int y = 0; y < image->height(); y++) {
+			PixelRgb& pixel = image->pixel(x, y);
 			// check if blue level exceeds red and green by a factor of 2
 			if (pixel.b > pixel.r * 1.2 + 10 && pixel.b > pixel.g * 1.2 + 10) {
 				bluePixelsCount++;
@@ -32,7 +41,7 @@ int RecognitionController::getBlueTargetPosition(std::vector<Vector> &_objects)
 		yMean /= bluePixelsCount;
 	}
 	// Check if the target is big enough
-	if (bluePixelsCount > (_image->width() / 20) * (_image->height() / 20)) {
+	if (bluePixelsCount > (image->width() / 20) * (image->height() / 20)) {
 		// If the target moved (without decimals)
 		if (int(tmp[0]) != int(xMean) || int(tmp[1]) != int(yMean)) {
 			tmp[0] = xMean;

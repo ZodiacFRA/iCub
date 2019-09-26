@@ -25,8 +25,18 @@ int OrgansController::init()
 		_organs.emplace(it, new OrganController(it));
 	for (auto it : _organs) {
 		if (!it.second->init())
-			printf("%s%s Organ Controller init failed%s\n", it.first, COLOR_RED, COLOR_RESET);
+			printf("%s%s Organ Controller init failed%s\n", it.first.c_str(), COLOR_RED, COLOR_RESET);
 			return FAILURE;
 	}
+	return SUCCESS;
+}
+
+std::vector<std::string> &OrgansController::getInterfaces()
+{
+	return _interfaces;
+}
+
+int OrgansController::move(std::map<std::string, Vector> &moves)
+{
 	return SUCCESS;
 }

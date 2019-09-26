@@ -2,6 +2,7 @@
 #define ORGANS_CONTROLLER_HPP
 
 #include "common.hpp"
+#include "OrganController.hpp"
 
 using namespace yarp::os;
 using namespace yarp::sig;
@@ -17,6 +18,8 @@ public:
 	OrgansController(std::vector<std::string> &);
 	~OrgansController();
 	int init();
+	std::vector<std::string> &getInterfaces();
+	int move(std::map<std::string, Vector> &);
 };
 
 #endif
