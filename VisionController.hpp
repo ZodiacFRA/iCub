@@ -15,8 +15,7 @@ private:
 public:
 	VisionController();
 	int init();
-	int getRobotView(ImageOf<PixelRgb> *);
-
+	int getRobotView(ImageOf<PixelRgb> **);
 };
 
 #endif

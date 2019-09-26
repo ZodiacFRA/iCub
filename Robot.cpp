@@ -44,7 +44,7 @@ int Robot::launch()
 {
 	while (1) {
 		_image = NULL;
-		this->_vision.getRobotView(_image);
+		this->_vision.getRobotView(&_image);
 
 		_faces.clear();
 		_objects.clear();
