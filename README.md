@@ -1,6 +1,8 @@
 # iCub
 Intelligent robotics assignment
 
-**To build:**
-cmake3 .
-make
+**To build:**  
+```
+$ cmake3 .
+$ make
+```
