@@ -24,9 +24,12 @@ int OrgansController::init()
 	for (auto it : _interfaces)
 		_organs.emplace(it, new OrganController(it));
 	for (auto it : _organs) {
-		if (!it.second->init())
+		if (!it.second->init()) {
 			printf("%s%s Organ Controller init failed%s\n", it.first.c_str(), COLOR_RED, COLOR_RESET);
 			return FAILURE;
+		} else {
+			printf("%s%s Organ Controller operational%s\n", it.first.c_str(), COLOR_GREEN, COLOR_RESET);
+		}
 	}
 	return SUCCESS;
 }

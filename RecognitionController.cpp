@@ -5,6 +5,11 @@ using namespace yarp::sig;
 using namespace yarp::dev;
 
 
+RecognitionController::RecognitionController()
+{
+	_oldTargetPos.resize(2);
+}
+
 int RecognitionController::init()
 {
 	return SUCCESS;
@@ -43,12 +48,14 @@ int RecognitionController::getBlueTargetPosition(ImageOf<PixelRgb> *image, std::
 	// Check if the target is big enough
 	if (bluePixelsCount > (image->width() / 20) * (image->height() / 20)) {
 		// If the target moved (without decimals)
-		if (int(tmp[0]) != int(xMean) || int(tmp[1]) != int(yMean)) {
+		if (int(_oldTargetPos[0]) != int(xMean) || int(_oldTargetPos[1]) != int(yMean)) {
 			tmp[0] = xMean;
 			tmp[1] = yMean;
 			tmp[2] = 1;
-			printf("%sTarget moving: x=%g\ty=%g%s\n",
-				COLOR_GREEN,
+			_oldTargetPos[0] = xMean;
+			_oldTargetPos[1] = yMean;
+			printf("%sTarget moving:\t\tx=%g\ty=%g%s\n",
+				COLOR_BLUE,
 				tmp[0],
 				tmp[1],
 				COLOR_RESET

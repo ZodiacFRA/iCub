@@ -6,7 +6,6 @@ using namespace yarp::dev;
 
 
 Robot::Robot()
-	: _image()
 {
 	std::vector<std::string> interfaces;
 	interfaces.push_back("/icubSim/head");

@@ -27,15 +27,13 @@ int VisionController::getRobotView(ImageOf<PixelRgb> **image)
 	*image = _imagePort.read();
 
 	if (*image == NULL) { // check we actually got something
-		if (_receiveFlag) {
-			printf("%sNo video stream%s\n", COLOR_YELLOW, COLOR_RESET);
-			_receiveFlag = false;
-		}
+		printf("%sNo video stream%s\n", COLOR_YELLOW, COLOR_RESET);
+		_receiveFlag = false;
 		return FAILURE;
 	}
 	if (!_receiveFlag) {
-		printf("%sReceiving image: %dpx x %dpx %s\n",
-			COLOR_GREEN,
+		printf("%sReceiving image:\t%dpx\t\t%dpx %s\n",
+			COLOR_BLUE,
 			(*image)->width(),
 			(*image)->height(),
 			COLOR_RESET

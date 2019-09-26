@@ -10,10 +10,10 @@ using namespace yarp::dev;
 
 class RecognitionController {
 private:
-	/* data */
+	Vector _oldTargetPos;
 
 public:
-	// RecognitionController (arguments);
+	RecognitionController();
 	// virtual ~RecognitionController ();
 	int init();
 	int recognize(ImageOf<PixelRgb> *, std::vector<Vector> &, std::vector<Vector> &);
