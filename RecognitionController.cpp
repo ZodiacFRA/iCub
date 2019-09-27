@@ -25,7 +25,7 @@ int RecognitionController::recognize(ImageOf<PixelRgb> *image,
 
 	// Transform yarp image into openCV Mat
 	cv::Mat frame((IplImage*)image->getIplImage());
-    // cv::cvtColor(frame, frame, CV_RGB2BGR);
+    cv::cvtColor(frame, frame, CV_RGB2BGR);
 
 	getFacesPositions(frame, _cascade, faces);
 	return SUCCESS;
