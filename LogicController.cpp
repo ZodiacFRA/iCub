@@ -30,12 +30,15 @@ int LogicController::think(std::vector<Vector> &faces,
 		target[0] -= 320 / 2;
 		target[1] = (240 - target[1]) - (240 / 2);
 		moves["/icubSim/head"] = target;
-	} else if (std::find(interfaces.begin(), interfaces.end(), "/icubSim/right_arm") != interfaces.end()) {
-		  // Blind robot idle animation
-		  target[0] = rand() % 120 - 60;
-		  target[1] = rand() % 120 - 60;
-		  target[2] = 1;
-		  moves["/icubSim/right_arm"] = target;
+	}
+	if (std::find(interfaces.begin(), interfaces.end(), "/icubSim/right_arm") != interfaces.end() ||
+	std::find(interfaces.begin(), interfaces.end(), "/icubSim/left_arm") != interfaces.end()) {
+		// Blind robot idle animation
+		target[0] = rand() % 240 - 120;
+		target[1] = rand() % 120 - 60;
+		target[2] = 1;
+		moves["/icubSim/right_arm"] = target;
+		moves["/icubSim/left_arm"] = target;
 	}
 	// No head nor arm interface
 	return SUCCESS;

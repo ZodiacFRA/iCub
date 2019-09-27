@@ -97,7 +97,8 @@ int RecognitionController::getBlueTargetPosition(ImageOf<PixelRgb> *image, std::
 		tmp[1] = yMean;
 		tmp[2] = 1;
 		objects.push_back(tmp);
-		if (int(_oldTargetPos[0]) != int(xMean) || int(_oldTargetPos[1]) != int(yMean)) {
+		if (int(_oldTargetPos[0]) / 10 != int(xMean) / 10 ||
+			int(_oldTargetPos[1]) /10 != int(yMean) / 10) {
 				printf("%sTarget moving:\t\tx=%g\ty=%g%s\n",
 				COLOR_BLUE,
 				tmp[0],

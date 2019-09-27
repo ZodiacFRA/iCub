@@ -19,7 +19,6 @@ private:
 
 public:
 	RecognitionController();
-	// virtual ~RecognitionController ();
 	int init();
 	int recognize(ImageOf<PixelRgb> *, std::vector<Vector> &, std::vector<Vector> &);
 	int getBlueTargetPosition(ImageOf<PixelRgb> *, std::vector<Vector> &);
