@@ -18,8 +18,14 @@ int OrganController::move(Vector &targetPos)
 		// 	targetPos[1],
 		// 	_remoteTarget.c_str(),
 		// 	COLOR_RESET);
-		_setPoints[3] = targetPos[1];
-		_setPoints[4] = targetPos[0];
+
+		_setPoints[0] = targetPos[1] / 2;  // Pitch
+		_setPoints[1] = 0;  // Roll
+		_setPoints[2] = -targetPos[0] / 2;  // Yaw
+		_setPoints[3] = targetPos[1] / 2;  // Eye pitch
+		_setPoints[4] = targetPos[0] / 2;  // Eye yaw
+		_setPoints[5] = 0;  // Eye focus distance
+
 	} else {  // Reset eyes positions
 		_setPoints[3] = 0;
 		_setPoints[4] = 0;
