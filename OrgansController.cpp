@@ -26,11 +26,11 @@ int OrgansController::init()
 	for (auto interfaceName : _interfaces) {
 		OrganController *tmp = new OrganController(interfaceName);
 		if (!tmp->init()) {
-			printf("%s%s: link failed%s\n",
+			printf("%s%s: connection failed%s\n",
 				COLOR_RED, interfaceName.c_str(), COLOR_RESET);
 			delete tmp;
 		} else {
-			printf("%s%s: link operational%s\n",
+			printf("%s%s: connnection successful%s\n",
 				COLOR_GREEN, interfaceName.c_str(), COLOR_RESET);
 			finalInterfaces.push_back(interfaceName);
 			_organs.emplace(interfaceName, tmp);

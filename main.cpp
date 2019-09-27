@@ -8,7 +8,7 @@ int main(int argc, char const **argv) {
 			COLOR_RESET);
 		return FAILURE;
 	}
-	printf("%s--------------------\nRobot is online\n--------------------%s\n",
+	printf("%s---------------------\n| Robot operational |\n---------------------%s\n",
 		COLOR_GREEN,
 		COLOR_RESET);
 	return robot.launch();
