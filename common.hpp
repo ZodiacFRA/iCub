@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string>
 #include <map>
+#include <algorithm>
 
 #include <yarp/os/Network.h>
 #include <yarp/os/BufferedPort.h>

@@ -44,7 +44,8 @@ int Robot::init()
 int Robot::launch()
 {
 	bool flag = 0;
-	while (!flag) {
+	std::vector<std::string> interfaces = _organs->getInterfaces();
+	while (1) {
 		_image = NULL;
 		this->_vision.getRobotView(&_image);
 
@@ -54,8 +55,7 @@ int Robot::launch()
 
 		resetMoves();
 		// _organs is given to get all available interfaces
-		this->_logic.think(_faces, _objects, _moves, _organs->getInterfaces());
-
+		this->_logic.think(_faces, _objects, _moves, interfaces);
 		this->_organs->move(_moves);
 		flag = true;
 	}

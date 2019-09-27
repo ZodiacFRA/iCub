@@ -50,6 +50,8 @@ std::vector<std::string> &OrgansController::getInterfaces()
 
 int OrgansController::move(std::map<std::string, Vector> &moves)
 {
+	for (auto interfaceMove : moves)
+		_organs[interfaceMove.first]->move(interfaceMove.second);
 	return SUCCESS;
 }
 

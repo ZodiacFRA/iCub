@@ -12,12 +12,12 @@ int OrganController::move(Vector &targetPos)
 		_setPoints[i] = 0;
 
 	if (targetPos[2] > 0.5) {  	// Move only if enough confident
-		printf("%sSending pos: x=%g\ty=%g to %s%s\n",
-			COLOR_BLUE,
-			targetPos[0],
-			targetPos[1],
-			_remoteTarget.c_str(),
-			COLOR_RESET);
+		// printf("%sSending pos: x=%g\ty=%g to %s%s\n",
+		// 	COLOR_BLUE,
+		// 	targetPos[0],
+		// 	targetPos[1],
+		// 	_remoteTarget.c_str(),
+		// 	COLOR_RESET);
 		_setPoints[3] = targetPos[1];
 		_setPoints[4] = targetPos[0];
 	} else {  // Reset eyes positions
