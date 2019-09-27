@@ -10,15 +10,17 @@ Robot::Robot()
 	std::vector<std::string> interfaces;
 	interfaces.push_back("/icubSim/head");
 	interfaces.push_back("/icubSim/left_arm");
+	interfaces.push_back("/icubSim/right_arm");
 	_organs = new OrgansController(interfaces);
 }
 
 Robot::~Robot()
 {
-	if (_image)
-		delete _image;
+	// _image is already deleted by the destructor of _imagePort which is
+	// called by the default destructor of _visionController
 	if (_organs)
 		delete _organs;
+	// Yarp still leaks 32 bytes of memory, cannot be fixed from here
 }
 
 int Robot::init()
@@ -41,7 +43,8 @@ int Robot::init()
 // Get robot's view, search target and look at it if found
 int Robot::launch()
 {
-	while (1) {
+	bool flag = 0;
+	while (!flag) {
 		_image = NULL;
 		this->_vision.getRobotView(&_image);
 
@@ -54,6 +57,7 @@ int Robot::launch()
 		this->_logic.think(_faces, _objects, _moves, _organs->getInterfaces());
 
 		this->_organs->move(_moves);
+		flag = true;
 	}
 }
 

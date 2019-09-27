@@ -20,6 +20,7 @@ public:
 	int init();
 	std::vector<std::string> &getInterfaces();
 	int move(std::map<std::string, Vector> &);
+	int deleteInterface(std::string);
 };
 
 #endif

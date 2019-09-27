@@ -5,7 +5,13 @@ using namespace yarp::sig;
 using namespace yarp::dev;
 
 
-int LogicController::think(std::vector<Vector> &faces, std::vector<Vector> &objects, std::map<std::string, Vector> &moves, std::vector<std::string> &interfaces)
+int LogicController::think(std::vector<Vector> &faces,
+	std::vector<Vector> &objects, std::map<std::string, Vector> &moves,
+	std::vector<std::string> &interfaces)
 {
+
+	// if (faces.size() > 0) {
+	// 	Vector targetFace = getNearestFace(faces);
+	// }
 	return SUCCESS;
 }

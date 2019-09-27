@@ -34,7 +34,7 @@ int OrganController::init()
 	// create the options struct needed by the _driver constructor
 	Property options;
 	options.put("device", "remote_controlboard");
-	options.put("local", "/test/client");
+	options.put("local", "/test/client" + _remoteTarget);
 	options.put("remote", _remoteTarget);
 
 	_driver = new PolyDriver(options);
