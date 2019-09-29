@@ -78,36 +78,3 @@ int OrganController::init()
 
 	return SUCCESS;
 }
-
-	//
-	// if (targetPos[2] > 0.5) {  	// Move only if enough confident
-	// 	if (_remoteTarget.find("head") != -1) {
-	// 		_setPoints[0] = targetPos[1] / 2;  // Pitch
-	// 		_setPoints[1] = 0;  // Roll
-	// 		_setPoints[2] = -targetPos[0] / 2;  // Yaw
-	// 		_setPoints[3] = targetPos[1] / 2;  // Eye pitch
-	// 		_setPoints[4] = targetPos[0] / 2;  // Eye yaw
-	// 		_setPoints[5] = 0;  // Eye focus distance
-	// 	} else if (_remoteTarget.find("arm") != -1) {
-	// 		// _setPoints[0] = targetPos[0];  // Shoulder Y rot
-	// 		// _setPoints[1] = targetPos[1];  // Shoulder X rot
-	// 		// _setPoints[2] = targetPos[0];  // Shoulder Z rot
-	// 		// _setPoints[3] = targetPos[1];  // Elbow Y rot
-	// 		// _setPoints[4] = targetPos[0];  // Elbow Z rot ?
-	// 		// _setPoints[5] = targetPos[1];  // Wrist supination
-	// 		// _setPoints[6] = targetPos[0];  // Wrist Karate
-	// 		// _setPoints[7] = targetPos[1];  // Spread fingers
-	// 		_setPoints[8] = targetPos[0] *10;  // Thumb go median
-	// 		_setPoints[9] = targetPos[1] *10;  // Thumb Forward
-	// 		_setPoints[10] = targetPos[0] *10;  // Thumb Forward
-	// 		_setPoints[11] = targetPos[1] *10;  // Thumb Forward
-	// 		_setPoints[12] = targetPos[0] *10;  // Thumb Forward
-	// 		_setPoints[13] = targetPos[1] *10;  // Thumb Forward
-	// 		_setPoints[14] = targetPos[0] *10;  // Thumb Forward
-	// 		_setPoints[15] = targetPos[1] *10;  // Thumb Forward
-	// 	}
-	// } else {  // Reset eyes positions
-	// 	_setPoints[3] = 0;
-	// 	_setPoints[4] = 0;
-	// }
-	//

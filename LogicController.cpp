@@ -11,26 +11,26 @@ int LogicController::think(std::vector<Vector> &faces,
 {
 	// Check if we have eyes, if not: move something
 	if (std::find(interfaces.begin(), interfaces.end(), "/icubSim/head") != interfaces.end()) {
-		Vector visualTarget;
+		Vector visualTarget;  // Only target position
 		visualTarget.resize(3);
-		Vector moveVector;
+		Vector moveVector;  // iCub Head has 6 different joints
 		moveVector.resize(6);
-		for (int i = 0 ; i < 6 ; i++)
+		for (int i = 0 ; i < 6 ; i++)  // Reset the vector
 			moveVector[i] = 0;
-		// target faces in priority
-		if (faces.size() > 0) {
+		if (faces.size() > 0) {  // target faces in priority
 			if (faces.size() == 1)
 				visualTarget = faces[0];
-			else if (faces.size() > 1)
+			else if (faces.size() > 1)  // Get the biggest (nearest) face
 				getNearestFace(faces, visualTarget);
-		} else if (objects.size() > 0) {  // Handle objects
+		} else if (objects.size() > 0) {
 			// Multiple objects handling not implemented yet
 			visualTarget = objects[0];
-		} else {  // No faces nor objects
+		} else {  // No targets, look at the center
 			visualTarget[0] = 320 / 2;
 			visualTarget[1] = 240 / 2;
 			visualTarget[2] = 0;
 		}
+		// transform target position to eyes positions
 		double x = visualTarget[0] - (320 / 2);
 		double y = -(visualTarget[1] - (240 / 2));
 		moveVector[4] = x / 2;
@@ -44,13 +44,13 @@ int LogicController::think(std::vector<Vector> &faces,
 		// Blind robot idle animation
 		Vector moveVector;
 		moveVector.resize(16);
-		// moveVector[0] = rand() % 240 - 120;
-		// moveVector[1] = rand() % 120 - 60;
-		// moveVector[2] = 1;
-		// moves["/icubSim/right_arm"] = moveVector;
-		// moves["/icubSim/left_arm"] = moveVector;
+		for (int i = 0; i < 16; i++)
+			moveVector[i] = rand() % 120 - 60;
+		moves["/icubSim/right_arm"] = _movementsDict["hello"];//moveVector;
+		for (int i = 0; i < 16; i++)
+			moveVector[i] = rand() % 120 - 60;
+		moves["/icubSim/left_arm"] = _movementsDict["hello"];//moveVector;
 	}
-	// No head nor arm interface
 	return SUCCESS;
 }
 
@@ -63,5 +63,24 @@ int LogicController::getNearestFace(std::vector<Vector> &faces, Vector &targetFa
 			targetFace = face;
 		}
 	}
+	return SUCCESS;
+}
+
+int LogicController::init()
+{
+	Vector tmp;
+	tmp.resize(16);
+	_movementsDict["reset"] = tmp;
+	// Hello movement
+	tmp[0] = -94.5;
+	tmp[1] = 45;
+	tmp[2] = -3.5;
+	tmp[3] = 57;
+	tmp[4] = 73.8;
+	tmp[5] = -31.5;
+	tmp[6] = -9;
+	tmp[7] = 46.8;
+	tmp[8] = 32.0;
+	_movementsDict["hello"] = tmp;
 	return SUCCESS;
 }

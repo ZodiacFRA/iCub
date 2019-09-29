@@ -27,7 +27,9 @@ int Robot::init()
 	} else if (!_recognizer.init()) {
 		printf("%Recognition Controller init failed%s\n", COLOR_RED, COLOR_RESET);
 		return FAILURE;
-		// Logic class does not need any init (so far)
+	} else if (!_logic.init()) {
+		printf("%Logic Controller init failed%s\n", COLOR_RED, COLOR_RESET);
+		return FAILURE;
 	} else if (!_organs->init()) {
 		// Error message is printed in class to get the interface failure name
 		return FAILURE;
@@ -51,7 +53,7 @@ int Robot::launch()
 		this->_recognizer.recognize(_image, _faces, _objects);
 
 		resetMoves();
-		// _organs is given to get all available interfaces
+		// _organs is given all available interfaces
 		this->_logic.think(_faces, _objects, _moves, interfaces);
 		this->_organs->move(_moves);
 		flag = true;
