@@ -23,8 +23,6 @@ OrganController::~OrganController()
 int OrganController::move(Vector &moveVector)
 {
 	// reset all move points (n = joints nmbr)
-	if (moveVector.size() != _jntsNbr)
-		printf("Invalid move command");
 	for (int i = 0; i < moveVector.size(); i++) {
 		_setPoints[i] = moveVector[i];
 	}

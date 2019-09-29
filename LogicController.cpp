@@ -44,12 +44,8 @@ int LogicController::think(std::vector<Vector> &faces,
 		// Blind robot idle animation
 		Vector moveVector;
 		moveVector.resize(16);
-		for (int i = 0; i < 16; i++)
-			moveVector[i] = rand() % 120 - 60;
 		moves["/icubSim/right_arm"] = _movementsDict["hello"];//moveVector;
-		for (int i = 0; i < 16; i++)
-			moveVector[i] = rand() % 120 - 60;
-		moves["/icubSim/left_arm"] = _movementsDict["hello"];//moveVector;
+		moves["/icubSim/left_arm"] = _movementsDict["reset"];//moveVector;
 	}
 	return SUCCESS;
 }
@@ -71,7 +67,6 @@ int LogicController::init()
 	Vector tmp;
 	tmp.resize(16);
 	_movementsDict["reset"] = tmp;
-	// Hello movement
 	tmp[0] = -94.5;
 	tmp[1] = 45;
 	tmp[2] = -3.5;

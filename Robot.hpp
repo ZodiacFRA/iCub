@@ -32,7 +32,6 @@ public:
 	int init();
 
 	int launch();
-	void resetMoves();
 };
 
 

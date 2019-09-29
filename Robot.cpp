@@ -41,7 +41,6 @@ int Robot::init()
 // Get robot's view, search target and look at it if found
 int Robot::launch()
 {
-	bool flag = 0;
 	std::vector<std::string> interfaces;
 	_organs->getInterfaces(interfaces);
 	while (1) {
@@ -52,18 +51,9 @@ int Robot::launch()
 		_objects.clear();
 		this->_recognizer.recognize(_image, _faces, _objects);
 
-		resetMoves();
+		_moves.clear();
 		// _organs is given all available interfaces
 		this->_logic.think(_faces, _objects, _moves, interfaces);
 		this->_organs->move(_moves);
-		flag = true;
-	}
-}
-
-void Robot::resetMoves()
-{
-	for (auto it : _moves) {
-		it.second[0] = 0;
-		it.second[1] = 0;
 	}
 }
