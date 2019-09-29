@@ -5,12 +5,6 @@ using namespace yarp::sig;
 using namespace yarp::dev;
 
 
-OrgansController::OrgansController(std::vector<std::string> &interfaces)
-{
-	for (auto it : interfaces)
-		_interfaces.push_back(it);
-}
-
 OrgansController::~OrgansController()
 {
 	for (auto it : _organs) {
@@ -22,30 +16,35 @@ OrgansController::~OrgansController()
 int OrgansController::init()
 {
 	int count = 0;
-	std::vector<std::string> finalInterfaces;
-	for (auto interfaceName : _interfaces) {
-		OrganController *tmp = new OrganController(interfaceName);
-		if (!tmp->init()) {
-			printf("%s%s: connection failed%s\n",
-				COLOR_RED, interfaceName.c_str(), COLOR_RESET);
-			delete tmp;
-		} else {
-			printf("%s%s: connnection successful%s\n",
-				COLOR_GREEN, interfaceName.c_str(), COLOR_RESET);
-			finalInterfaces.push_back(interfaceName);
-			_organs.emplace(interfaceName, tmp);
-			count++;
-		}
-	}
+	count += initInterface("/icubSim/head",			22.0,	1000.0);
+	count += initInterface("/icubSim/left_arm",		100.0,	1000.0);
+	count += initInterface("/icubSim/right_arm",	100.0,	1000.0);
 	if (count > 0)
 		return SUCCESS;
 	else
 		return FAILURE;
 }
 
-std::vector<std::string> &OrgansController::getInterfaces()
+int OrgansController::initInterface(std::string interfaceName, double speed, double acceleration)
 {
-	return _interfaces;
+	OrganController *tmp = new OrganController(interfaceName, speed, acceleration);
+	if (!tmp->init()) {
+		printf("%s%s: connection failed%s\n",
+			COLOR_RED, interfaceName.c_str(), COLOR_RESET);
+		delete tmp;
+		return FAILURE;
+	} else {
+		printf("%s%s: connnection successful%s\n",
+			COLOR_GREEN, interfaceName.c_str(), COLOR_RESET);
+		_organs.emplace(interfaceName, tmp);
+		return SUCCESS;
+	}
+}
+
+void OrgansController::getInterfaces(std::vector<std::string> &interfaces)
+{
+	for (auto it : _organs)
+		interfaces.push_back(it.first);
 }
 
 int OrgansController::move(std::map<std::string, Vector> &moves)
@@ -59,11 +58,9 @@ int OrgansController::move(std::map<std::string, Vector> &moves)
 // use invalid interfaces
 int OrgansController::deleteInterface(std::string interface)
 {
-	int pos = 0;
-    for(auto it = _interfaces.begin(); it != _interfaces.end(); it++) {
-		if (_interfaces[pos] == interface)
-			_interfaces.erase(it);
-		pos++;
-	}
+	auto it = _organs.find(interface);
+	if (it->second)
+		delete it->second;
+	_organs.erase(it);
 	return SUCCESS;
 }

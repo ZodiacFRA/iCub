@@ -11,14 +11,13 @@ using namespace yarp::dev;
 
 class OrgansController {
 private:
-	std::vector<std::string> _interfaces;
 	std::map<std::string, OrganController *> _organs;  // Organs drivers
 
 public:
-	OrgansController(std::vector<std::string> &);
 	~OrgansController();
 	int init();
-	std::vector<std::string> &getInterfaces();
+	int initInterface(std::string, double, double);
+	void getInterfaces(std::vector<std::string> &);
 	int move(std::map<std::string, Vector> &);
 	int deleteInterface(std::string);
 };

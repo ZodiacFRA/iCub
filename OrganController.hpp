@@ -17,9 +17,11 @@ private:
 	int 				_jntsNbr;
 	Vector 				_setPoints;
 	std::string 		_remoteTarget;
+	double				_refSpeed;
+	double				_refAcceleration;
 
 public:
-	OrganController(std::string &);
+	OrganController(std::string &, double, double);
 	virtual ~OrganController();
 
 	int init();

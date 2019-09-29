@@ -7,11 +7,7 @@ using namespace yarp::dev;
 
 Robot::Robot()
 {
-	std::vector<std::string> interfaces;
-	interfaces.push_back("/icubSim/head");
-	interfaces.push_back("/icubSim/left_arm");
-	interfaces.push_back("/icubSim/right_arm");
-	_organs = new OrgansController(interfaces);
+	_organs = new OrgansController();
 }
 
 Robot::~Robot()
@@ -44,7 +40,8 @@ int Robot::init()
 int Robot::launch()
 {
 	bool flag = 0;
-	std::vector<std::string> interfaces = _organs->getInterfaces();
+	std::vector<std::string> interfaces;
+	_organs->getInterfaces(interfaces);
 	while (1) {
 		_image = NULL;
 		this->_vision.getRobotView(&_image);
