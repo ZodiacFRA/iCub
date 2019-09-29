@@ -20,11 +20,14 @@ OrganController::~OrganController()
 }
 
 
-int OrganController::move(Vector &targetPos)
+int OrganController::move(Vector &moveVector)
 {
 	// reset all move points (n = joints nmbr)
-	for (int i = 0; i < _jntsNbr; i++)
-		_setPoints[i] = (targetPos[2] > 0.5) ? targetPos[i]: 0;
+	if (moveVector.size() != _jntsNbr)
+		printf("Invalid move command");
+	for (int i = 0; i < moveVector.size(); i++) {
+		_setPoints[i] = moveVector[i];
+	}
 	_pos->positionMove(_setPoints.data());
 	return SUCCESS;
 }

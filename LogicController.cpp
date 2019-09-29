@@ -9,36 +9,46 @@ int LogicController::think(std::vector<Vector> &faces,
 	std::vector<Vector> &objects, std::map<std::string, Vector> &moves,
 	std::vector<std::string> &interfaces)
 {
-	Vector target;
-	target.resize(3);
 	// Check if we have eyes, if not: move something
 	if (std::find(interfaces.begin(), interfaces.end(), "/icubSim/head") != interfaces.end()) {
+		Vector visualTarget;
+		visualTarget.resize(3);
+		Vector moveVector;
+		moveVector.resize(6);
+		for (int i = 0 ; i < 6 ; i++)
+			moveVector[i] = 0;
 		// target faces in priority
 		if (faces.size() > 0) {
 			if (faces.size() == 1)
-				target = faces[0];
+				visualTarget = faces[0];
 			else if (faces.size() > 1)
-				getNearestFace(faces, target);
+				getNearestFace(faces, visualTarget);
 		} else if (objects.size() > 0) {  // Handle objects
 			// Multiple objects handling not implemented yet
-			target = objects[0];
+			visualTarget = objects[0];
 		} else {  // No faces nor objects
-			target[0] = 320 / 2;
-			target[1] = 420 / 2;
-			target[2] = 0;
+			visualTarget[0] = 320 / 2;
+			visualTarget[1] = 240 / 2;
+			visualTarget[2] = 0;
 		}
-		target[0] -= 320 / 2;
-		target[1] = (240 - target[1]) - (240 / 2);
-		moves["/icubSim/head"] = target;
+		double x = visualTarget[0] - (320 / 2);
+		double y = -(visualTarget[1] - (240 / 2));
+		moveVector[4] = x / 2;
+		moveVector[3] = y / 2;
+		moveVector[0] = y / 2;
+		moveVector[2] = -x / 2;
+		moves["/icubSim/head"] = moveVector;
 	}
 	if (std::find(interfaces.begin(), interfaces.end(), "/icubSim/right_arm") != interfaces.end() ||
 	std::find(interfaces.begin(), interfaces.end(), "/icubSim/left_arm") != interfaces.end()) {
 		// Blind robot idle animation
-		target[0] = rand() % 240 - 120;
-		target[1] = rand() % 120 - 60;
-		target[2] = 1;
-		moves["/icubSim/right_arm"] = target;
-		moves["/icubSim/left_arm"] = target;
+		Vector moveVector;
+		moveVector.resize(16);
+		// moveVector[0] = rand() % 240 - 120;
+		// moveVector[1] = rand() % 120 - 60;
+		// moveVector[2] = 1;
+		// moves["/icubSim/right_arm"] = moveVector;
+		// moves["/icubSim/left_arm"] = moveVector;
 	}
 	// No head nor arm interface
 	return SUCCESS;
