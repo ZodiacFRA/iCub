@@ -16,10 +16,10 @@ OrgansController::~OrgansController()
 int OrgansController::init()
 {
 	int count = 0;
-	count += initInterface("/icubSim/head",			22.0,	1000.0);
-	count += initInterface("/icubSim/left_arm",		100.0,	1000.0);
-	count += initInterface("/icubSim/right_arm",	100.0,	1000.0);
-	// count += initInterface("/icubSim/torso",		100.0,	1000.0);
+	count += initInterface("/icubSim/head",			22.0,	200.0);
+	count += initInterface("/icubSim/left_arm",		30.0,	200.0);
+	count += initInterface("/icubSim/right_arm",	30.0,	200.0);
+	// count += initInterface("/icubSim/torso",		50.0,	200.0);
 	if (count > 0)
 		return SUCCESS;
 	else
@@ -48,7 +48,7 @@ void OrgansController::getInterfaces(std::vector<std::string> &interfaces)
 		interfaces.push_back(it.first);
 }
 
-int OrgansController::move(std::map<std::string, Vector> &moves)
+int OrgansController::move(std::map<std::string, movStruct> &moves)
 {
 	for (auto interfaceMove : moves)
 		_organs[interfaceMove.first]->move(interfaceMove.second);

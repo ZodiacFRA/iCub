@@ -18,7 +18,7 @@ public:
 	int init();
 	int initInterface(std::string, double, double);
 	void getInterfaces(std::vector<std::string> &);
-	int move(std::map<std::string, Vector> &);
+	int move(std::map<std::string, movStruct> &);
 	int deleteInterface(std::string);
 };
 

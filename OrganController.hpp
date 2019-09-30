@@ -25,7 +25,8 @@ public:
 	virtual ~OrganController();
 
 	int init();
-	int move(Vector &);
+	int move(movStruct &);
+	void setJointsAttributes(double, double);
 };
 
 #endif

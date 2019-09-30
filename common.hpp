@@ -27,4 +27,16 @@
 #define COLOR_BLUE "\x1b[36m"
 #define COLOR_RESET "\x1b[0m"
 
+class movStruct {
+public:
+	movStruct(yarp::sig::Vector vector, double speed, double acceleration)
+	: vector(vector), speed(speed), acceleration(acceleration)
+	{}
+	movStruct() {}
+
+	yarp::sig::Vector vector;
+	double speed;
+	double acceleration;
+};
+
 #endif

@@ -21,7 +21,7 @@ public:
 	RecognitionController();
 	int init();
 	int recognize(ImageOf<PixelRgb> *, std::vector<Vector> &, std::vector<Vector> &);
-	int getBlueTargetPosition(ImageOf<PixelRgb> *, std::vector<Vector> &);
+	int getTargetPosition(ImageOf<PixelRgb> *, std::vector<Vector> &);
 	int getFacesPositions(cv::Mat &, cv::CascadeClassifier &, std::vector<Vector> &);
 };
 

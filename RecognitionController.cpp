@@ -21,7 +21,7 @@ int RecognitionController::init()
 int RecognitionController::recognize(ImageOf<PixelRgb> *image,
 	std::vector<Vector> &faces, std::vector<Vector> &objects)
 {
-	getBlueTargetPosition(image, objects);
+	getTargetPosition(image, objects);
 
 	// Transform yarp image into openCV Mat
 	cv::Mat frame((IplImage*)image->getIplImage());
@@ -67,11 +67,11 @@ int RecognitionController::getFacesPositions(cv::Mat &img,
 
 
 // Find position of the target in image (will fail with multiple targets)
-int RecognitionController::getBlueTargetPosition(ImageOf<PixelRgb> *image, std::vector<Vector> &objects)
+int RecognitionController::getTargetPosition(ImageOf<PixelRgb> *image, std::vector<Vector> &objects)
 {
 	double xMean = 0;
 	double yMean = 0;
-	int bluePixelsCount = 0;
+	int pixelsCount = 0;
 	Vector tmp;
 	tmp.resize(3);
 
@@ -79,19 +79,19 @@ int RecognitionController::getBlueTargetPosition(ImageOf<PixelRgb> *image, std::
 		for (int y = 0; y < image->height(); y++) {
 			PixelRgb& pixel = image->pixel(x, y);
 			// check if blue level exceeds red and green by a factor of 2
-			if (pixel.b > pixel.r * 1.2 + 10 && pixel.b > pixel.g * 1.2 + 10) {
-				bluePixelsCount++;
+			if (pixel.g > pixel.b * 1.2 + 10 && pixel.g > pixel.r * 1.2 + 10) {
+				pixelsCount++;
 				xMean += x;
 				yMean += y;
 			}
 		}
 	}
-	if (bluePixelsCount > 0) {  // get the average location of blue pixels
-		xMean /= bluePixelsCount;
-		yMean /= bluePixelsCount;
+	if (pixelsCount > 0) {  // get the average location of blue pixels
+		xMean /= pixelsCount;
+		yMean /= pixelsCount;
 	}
 	// Check if the target is big enough
-	if (bluePixelsCount > (image->width() / 20) * (image->height() / 20)) {
+	if (pixelsCount > (image->width() / 20) * (image->height() / 20)) {
 		// If the target moved (without decimals)
 		tmp[0] = xMean;
 		tmp[1] = yMean;

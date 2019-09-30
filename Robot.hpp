@@ -19,7 +19,7 @@ private:
 	ImageOf<PixelRgb> *_image;  // image storage, Vision->Attention
 	std::vector<Vector> _faces;  // Detected faces positions
 	std::vector<Vector> _objects;  // Detected objects positions
-	std::map<std::string, Vector> _moves;  // Moves to be sent
+	std::map<std::string, movStruct> _moves;  // Moves to be sent
 
 	VisionController _vision;  // Gets robot's vision
 	RecognitionController _recognizer;  // Recognition driver

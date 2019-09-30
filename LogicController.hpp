@@ -10,10 +10,11 @@ using namespace yarp::dev;
 
 class LogicController {
 private:
-	std::map<std::string, Vector> _movementsDict;
+	std::map<std::string, movStruct> _movementsDict;
 public:
 	int init();
-	int think(std::vector<Vector> &, std::vector<Vector> &, std::map<std::string, Vector> &, std::vector<std::string> &);
+	int think(std::vector<Vector> &, std::vector<Vector> &,
+		std::map<std::string, movStruct> &, std::vector<std::string> &);
 	int getNearestFace(std::vector<Vector> &, Vector &);
 };
 

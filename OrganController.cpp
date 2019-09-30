@@ -20,13 +20,14 @@ OrganController::~OrganController()
 }
 
 
-int OrganController::move(Vector &moveVector)
+int OrganController::move(movStruct &move)
 {
 	// reset all move points (n = joints nmbr)
-	for (int i = 0; i < moveVector.size(); i++) {
-		_setPoints[i] = moveVector[i];
+	for (int i = 0; i < move.vector.size(); i++) {
+		_setPoints[i] = move.vector[i];
 	}
 	_pos->positionMove(_setPoints.data());
+	setJointsAttributes(move.speed, move.acceleration);
 	return SUCCESS;
 }
 
@@ -75,4 +76,17 @@ int OrganController::init()
     _pos->setRefAccelerations(tmp.data());
 
 	return SUCCESS;
+}
+
+void OrganController::setJointsAttributes(double speed, double acceleration)
+{
+	Vector tmp;
+	tmp.resize(_jntsNbr);
+	for (int i = 0; i < _jntsNbr; i++)
+		tmp[i] = speed;
+	_pos->setRefSpeeds(tmp.data());
+
+	// for (int i = 0; i < _jntsNbr; i++)
+	// 	tmp[i] = acceleration;
+	// _pos->setRefAccelerations(tmp.data());
 }
