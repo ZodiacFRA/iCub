@@ -1,6 +1,10 @@
 #include "Robot.hpp"
 
 int main(int argc, char const **argv) {
+
+	// Robot robot;
+	// robot.filter();
+
 	Robot robot;
 	if (robot.init() == FAILURE) {
 		printf("%sRobot initialization failed%s\n",

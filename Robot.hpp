@@ -7,6 +7,8 @@
 #include "RecognitionController.hpp"
 #include "LogicController.hpp"
 #include "OrgansController.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+#include "opencv2/highgui/highgui.hpp"
 
 using namespace yarp::os;
 using namespace yarp::sig;
@@ -32,6 +34,7 @@ public:
 	int init();
 
 	int launch();
+	int filter();
 };
 
 
