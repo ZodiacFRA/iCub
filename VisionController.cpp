@@ -101,9 +101,9 @@ int VisionController::filterImage(ImageOf<PixelRgb> **image)
   // imshow( window_name, grad );
 	// Mat grad2 = grad.clone();
 	// *image = fromCvMat<PixelRgb>(grad);
-  // auto yarpReturnImage=yarp::cv::fromCvMat<yarp::sig::PixelRgb>(cvImage2);
-	// **image = fromCvMat<PixelRgb>(grad);
-	**image = grad;
+  auto temp = fromCvMat<PixelRgb>(grad);
+	**image = temp;
+	// **image = grad;
 
   waitKey(0);
 
