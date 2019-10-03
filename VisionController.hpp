@@ -11,6 +11,8 @@
 using namespace yarp::os;
 using namespace yarp::sig;
 using namespace yarp::dev;
+using namespace yarp::cv;
+using namespace cv;
 
 class VisionController {
 private:
