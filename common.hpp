@@ -17,7 +17,7 @@
 
 #include <yarp/dev/all.h>
 
-#include <yarp/cv/Cv.h>
+#include <yarp/cv/all.h>
 
 #define FAILURE 0
 #define SUCCESS 1
