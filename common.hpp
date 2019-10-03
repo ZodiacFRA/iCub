@@ -17,6 +17,8 @@
 
 #include <yarp/dev/all.h>
 
+#include <yarp/cv/Cv.h>
+
 #define FAILURE 0
 #define SUCCESS 1
 #define MOVING_TARGET 2

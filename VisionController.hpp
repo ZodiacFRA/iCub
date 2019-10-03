@@ -2,8 +2,7 @@
 #define VISION_CONTROLLER
 
 #include "common.hpp"
-// #include "opencv2/imgproc/imgproc.hpp"
-// #include "opencv2/highgui/highgui.hpp"
+#include "/usr/include/opencv2/opencv.hpp"
 #include "/usr/include/opencv2/highgui/highgui.hpp"
 #include "/usr/include/opencv2/imgproc/imgproc.hpp"
 
