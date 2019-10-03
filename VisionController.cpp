@@ -64,7 +64,7 @@ int VisionController::filterImage(ImageOf<PixelRgb> **image)
 	// TODO:
 	// ImageOf<PixelRgb> *yarp_img;
 	// src = cvarrToMat(static_cast<IplImage*>(yarp_img->getIplImage));
-	src = cvarrToMat(static_cast<IplImage*>(**image->getIplImage));
+	src = cvarrToMat(static_cast<IplImage*>(**image->getIplImage()));
 
 	// yarp::sig::ImageOf<yarp::sig::PixelRgb> yarpImage;
 	// cv::Mat cvImage1=yarp::cv::toCvMat(yarpImage);
