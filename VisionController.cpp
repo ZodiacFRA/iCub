@@ -41,7 +41,7 @@ int VisionController::getRobotView(ImageOf<PixelRgb> **image)
 		_receiveFlag = true;
 	}
 
-	filterImage(&image);
+	filterImage(image);
 
 	return SUCCESS;
 }
@@ -51,7 +51,7 @@ int VisionController::filterImage(ImageOf<PixelRgb> **image)
 
   Mat src, src_gray;
   Mat grad;
-  char* window_name = "Sobel Demo - Simple Edge Detector";
+  // char* window_name = "Sobel Demo - Simple Edge Detector";
   int scale = 1;
   int delta = 0;
   int ddepth = CV_16S;
@@ -60,7 +60,14 @@ int VisionController::filterImage(ImageOf<PixelRgb> **image)
 
   /// Load an image
   // src = imread("face.jpg");
-	src = *image;
+	// TODO:
+	// ImageOf<PixelRgb> *yarp_img;
+	// src = cvarrToMat(static_cast<IplImage*>(yarp_img->getIplImage));
+	src = cvarrToMat(static_cast<IplImage*>(*image->getIplImage));
+
+	// yarp::sig::ImageOf<yarp::sig::PixelRgb> yarpImage;
+	// cv::Mat cvImage1=yarp::cv::toCvMat(yarpImage);
+	src = toCvMat(**image);
 
   if( !src.data )
   { return -1; }
@@ -71,7 +78,7 @@ int VisionController::filterImage(ImageOf<PixelRgb> **image)
   cvtColor( src, src_gray, CV_BGR2GRAY );
 
   /// Create window
-  namedWindow( window_name, CV_WINDOW_AUTOSIZE );
+  // namedWindow( window_name, CV_WINDOW_AUTOSIZE );
 
   /// Generate grad_x and grad_y
   Mat grad_x, grad_y;
@@ -91,7 +98,10 @@ int VisionController::filterImage(ImageOf<PixelRgb> **image)
   addWeighted( abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad );
 
   // imshow( window_name, grad );
-	*image = grad;
+	// Mat grad2 = grad.clone();
+	// *image = fromCvMat<PixelRgb>(grad);
+  // auto yarpReturnImage=yarp::cv::fromCvMat<yarp::sig::PixelRgb>(cvImage2);
+	**image = fromCvMat<PixelRgb>(grad);
 
   waitKey(0);
 
