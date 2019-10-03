@@ -106,7 +106,7 @@ int VisionController::filterImage(ImageOf<PixelRgb> **image)
 	// **image = temp;
 
 	IplImage temp = grad;
-	image->wrapIplImage(&temp);
+	*image->wrapIplImage(&temp);
 
   waitKey(0);
 
