@@ -102,9 +102,11 @@ int VisionController::filterImage(ImageOf<PixelRgb> **image)
   // imshow( window_name, grad );
 	// Mat grad2 = grad.clone();
 	// *image = fromCvMat<PixelRgb>(grad);
-  auto temp = fromCvMat<PixelRgb>(grad);
-	**image = temp;
-	// **image = grad;
+  // auto temp = fromCvMat<PixelRgb>(grad);
+	// **image = temp;
+
+	IplImage temp = grad;
+	**image.wrapIplImage(&temp);
 
   waitKey(0);
 
