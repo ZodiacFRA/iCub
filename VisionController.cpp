@@ -105,8 +105,10 @@ int VisionController::filterImage(ImageOf<PixelRgb> **image)
   // auto temp = fromCvMat<PixelRgb>(grad);
 	// **image = temp;
 
-	IplImage temp = grad;
-	**image->wrapIplImage(&temp);
+	// IplImage temp = grad;
+	// **image.wrapIplImage(&temp);
+
+	**image.setExternal(grad.data, grad.size[1], grad.size[0]);
 
   waitKey(0);
 
