@@ -3,7 +3,6 @@
 using namespace yarp::os;
 using namespace yarp::sig;
 using namespace yarp::dev;
-using namespace yarp::cv;
 using namespace cv;
 
 
@@ -102,7 +101,7 @@ int VisionController::filterImage(ImageOf<PixelRgb> **image)
   // imshow( window_name, grad );
 	// Mat grad2 = grad.clone();
 	// *image = fromCvMat<PixelRgb>(grad);
-  auto temp = fromCvMat<PixelRgb>(grad);
+  auto temp = yarp::cv::fromCvMat<PixelRgb>(grad);
 	**image = temp;
 	// **image = grad;
 
