@@ -119,6 +119,8 @@ int VisionController::filterImage(ImageOf<PixelRgb> **imageYarp)
   camOutObj.copy(ToPixelRgb(grad));
   imagePortOut.write();
 
+	printf("Writing image in /videoStream/out port.\n");
+
   waitKey(0);
 
   return 0;
