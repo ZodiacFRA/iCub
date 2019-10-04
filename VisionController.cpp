@@ -104,7 +104,7 @@ int VisionController::filterImage(ImageOf<PixelRgb> **imageYarp)
   addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad);
 
   // imshow( window_name, grad );
-	**imageYarp = ToPixelRgb(grad);
+	//**imageYarp = ToPixelRgb(grad);
 
 	// output video stream to screen
   BufferedPort<ImageOf<PixelBgr> > imagePortOut;
@@ -112,7 +112,7 @@ int VisionController::filterImage(ImageOf<PixelRgb> **imageYarp)
 		printf("%sCould not init video out stream%s\n", COLOR_RED, COLOR_RESET);
 		return FAILURE;
 	}
-  Network::connect("/videoStream/out", "/view/left");
+  //Network::connect("/videoStream/out", "/view/left");
 
 	// write processed eye-view
   ImageOf<PixelBgr> &camOutObj = imagePortOut.prepare();
