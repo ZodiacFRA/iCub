@@ -108,8 +108,11 @@ int VisionController::filterImage(ImageOf<PixelRgb> **imageYarp)
 
 	// output video stream to screen
   BufferedPort<ImageOf<PixelBgr> > imagePortOut;
-  imagePortOut.open("/videoStream/out");
-  Network::connect("/videoStream/out", "/icubSim/cam/left");
+	if (!imagePortOut.open("/videoStream/out")) {
+		printf("%sCould not init video out stream%s\n", COLOR_RED, COLOR_RESET);
+		return FAILURE;
+	}
+  Network::connect("/videoStream/out", "/view/left");
 
 	// write processed eye-view
   ImageOf<PixelBgr> &camOutObj = imagePortOut.prepare();
