@@ -73,9 +73,6 @@ int VisionController::filterImage(ImageOf<PixelRgb> **imageYarp)
   int ddepth = CV_16S;
   int c;
 
-  /// Load an image
-  // src = imread("face.jpg");
-
 	// image = cvarrToMat(static_cast<IplImage*>((**imageYarp).getIplImage()));
 	image = ToMat(**imageYarp);
 
@@ -107,17 +104,17 @@ int VisionController::filterImage(ImageOf<PixelRgb> **imageYarp)
   addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad);
 
   // imshow( window_name, grad );
-	// Mat grad2 = grad.clone();
-	// *image = fromCvMat<PixelRgb>(grad);
-  // auto temp = fromCvMat<PixelRgb>(grad);
-	// **image = temp;
-
-	// IplImage temp = grad;
-	// **image.wrapIplImage(&temp);
-
-	// **image.setExternal(grad.data, grad.size[1], grad.size[0]);
-
 	**imageYarp = ToPixelRgb(grad);
+
+	// output video stream to screen
+  BufferedPort<ImageOf<PixelBgr> > imagePortOut;
+  imagePortOut.open("/videoStream/out");
+  Network::connect("/videoStream/out", "/view/left");
+
+	// write processed eye-view
+  ImageOf<PixelBgr> &camOutObj = imagePortOut.prepare();
+  camOutObj.copy(ToPixelRgb(gray));
+  imagePortOut.write();
 
   waitKey(0);
 
