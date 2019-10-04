@@ -143,10 +143,10 @@ ImageOf<PixelBgr> ToPixelBgr(const cv::Mat& imageIn)
 	return imageOut;
 }
 
-int VisionController::filterImage(ImageOf<PixelRgb> *imageYarp)
+int RecognitionController::filterImage(ImageOf<PixelRgb> *imageYarp)
 {
 
-  cv::Mat /*image, */image_gray, grad;
+  cv::Mat image, image_gray, grad;
   // char* window_name = "Sobel Demo - Simple Edge Detector";
   int scale = 1;
   int delta = 0;
@@ -154,14 +154,14 @@ int VisionController::filterImage(ImageOf<PixelRgb> *imageYarp)
   int c;
 
 	// image = cvarrToMat(static_cast<IplImage*>((**imageYarp).getIplImage()));
-	// image = ToMat(*imageYarp);
+	image = ToMat(*imageYarp);
 
   if (!image.data) { return -1; }
 
-  cv::GaussianBlur( *image, image_gray, Size(3,3), 0, 0, BORDER_DEFAULT );
+  cv::GaussianBlur( *image, image_gray, cv::Size(3,3), 0, 0, cv::BORDER_DEFAULT );
 
   /// Convert it to gray
-  cv::cvtColor( image_gray, image_gray, CV_BGR2GRAY );
+  cv::cvtColor( image_gray, image_gray, cv::CV_BGR2GRAY );
 
   /// Create window
   // namedWindow( window_name, CV_WINDOW_AUTOSIZE );
@@ -172,12 +172,12 @@ int VisionController::filterImage(ImageOf<PixelRgb> *imageYarp)
 
   /// Gradient X
   //Scharr( src_gray, grad_x, ddepth, 1, 0, scale, delta, BORDER_DEFAULT );
-  cv::Sobel(image_gray, grad_x, ddepth, 1, 0, 3, scale, delta, BORDER_DEFAULT);
+  cv::Sobel(image_gray, grad_x, ddepth, 1, 0, 3, scale, delta, cv::BORDER_DEFAULT);
   cv::convertScaleAbs(grad_x, abs_grad_x);
 
   /// Gradient Y
   //Scharr( src_gray, grad_y, ddepth, 0, 1, scale, delta, BORDER_DEFAULT );
-  cv::Sobel(image_gray, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT);
+  cv::Sobel(image_gray, grad_y, ddepth, 0, 1, 3, scale, delta, cv::BORDER_DEFAULT);
   cv::convertScaleAbs(grad_y, abs_grad_y);
 
   /// Total Gradient (approximate)
@@ -192,7 +192,7 @@ int VisionController::filterImage(ImageOf<PixelRgb> *imageYarp)
   _imagePortOut.write();
 	printf("Writing image in /videoStream/out port.\n", COLOR_BLUE);
 
-  waitKey(0);
+  cv::waitKey(0);
 
   return 0;
 }

@@ -73,7 +73,7 @@ int VisionController::getRobotView(ImageOf<PixelRgb> **image)
 // int VisionController::filterImage(ImageOf<PixelRgb> *imageYarp)
 // {
 //
-//   Mat /*image, */image_gray, grad;
+//   Mat image, image_gray, grad;
 //   // char* window_name = "Sobel Demo - Simple Edge Detector";
 //   int scale = 1;
 //   int delta = 0;
@@ -81,7 +81,7 @@ int VisionController::getRobotView(ImageOf<PixelRgb> **image)
 //   int c;
 //
 // 	// image = cvarrToMat(static_cast<IplImage*>((**imageYarp).getIplImage()));
-// 	// image = ToMat(*imageYarp);
+// 	image = ToMat(*imageYarp);
 //
 //   if (!image.data) { return -1; }
 //
