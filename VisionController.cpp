@@ -49,7 +49,7 @@ int VisionController::getRobotView(ImageOf<PixelRgb> **image)
 }
 
 // convert yarp image to opencv data type
-Mat ToMat(const ImageOf<PixelBgr>& imageIn)
+Mat ToMat(const ImageOf<PixelRgb>& imageIn)
 {
 	return Mat((IplImage*)imageIn.getIplImage());
 }
@@ -76,8 +76,8 @@ int VisionController::filterImage(ImageOf<PixelRgb> **imageYarp)
   /// Load an image
   // src = imread("face.jpg");
 
-	image = cvarrToMat(static_cast<IplImage*>((**imageYarp).getIplImage()));
-	// image = ToMat(**imageYarp);
+	// image = cvarrToMat(static_cast<IplImage*>((**imageYarp).getIplImage()));
+	image = ToMat(**imageYarp);
 
   if (!image.data) { return -1; }
 
