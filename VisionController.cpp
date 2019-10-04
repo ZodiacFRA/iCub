@@ -51,7 +51,7 @@ int VisionController::getRobotView(ImageOf<PixelRgb> **image)
 		_receiveFlag = true;
 	}
 
-	filterImage(image);
+	filterImage(new ImageOf<PixelRgb>(**image));
 
 	return SUCCESS;
 }
@@ -71,7 +71,7 @@ ImageOf<PixelBgr> ToPixelBgr(const Mat& imageIn)
 	return imageOut;
 }
 
-int VisionController::filterImage(ImageOf<PixelRgb> **imageYarp)
+int VisionController::filterImage(ImageOf<PixelRgb> imageYarp)
 {
 
   Mat image, image_gray, grad;
@@ -82,7 +82,7 @@ int VisionController::filterImage(ImageOf<PixelRgb> **imageYarp)
   int c;
 
 	// image = cvarrToMat(static_cast<IplImage*>((**imageYarp).getIplImage()));
-	image = ToMat(**imageYarp);
+	image = ToMat(imageYarp);
 
   if (!image.data) { return -1; }
 
