@@ -43,7 +43,7 @@ int VisionController::getRobotView(ImageOf<PixelRgb> **image)
 		_receiveFlag = true;
 	}
 
-	filterImage(image);
+	// filterImage(image);
 
 	return SUCCESS;
 }
