@@ -55,10 +55,10 @@ Mat ToMat(const ImageOf<PixelBgr>& imageIn)
 }
 
 // convert opencv to yarp data type
-ImageOf<PixelBgr> ToPixelBgr(const Mat& imageIn)
+ImageOf<PixelRgb> ToPixelRgb(const Mat& imageIn)
 {
 	IplImage image(imageIn);
-	ImageOf<PixelBgr> imageOut;
+	ImageOf<PixelRgb> imageOut;
 	imageOut.wrapIplImage(&image);
 	return imageOut;
 }
@@ -117,7 +117,7 @@ int VisionController::filterImage(ImageOf<PixelRgb> **imageYarp)
 
 	// **image.setExternal(grad.data, grad.size[1], grad.size[0]);
 
-	**imageYarp = ToPixelBgr(grad);
+	**imageYarp = ToPixelRgb(grad);
 
   waitKey(0);
 
