@@ -85,7 +85,7 @@ int VisionController::getRobotView(ImageOf<PixelRgb> **image)
 //
 //   if (!image.data) { return -1; }
 //
-//   GaussianBlur( *image, image_gray, Size(3,3), 0, 0, BORDER_DEFAULT );
+//   GaussianBlur( image, image_gray, Size(3,3), 0, 0, BORDER_DEFAULT );
 //
 //   /// Convert it to gray
 //   cvtColor( image_gray, image_gray, CV_BGR2GRAY );
