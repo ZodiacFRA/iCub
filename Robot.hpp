@@ -26,9 +26,6 @@ private:
 	LogicController _logic;
 	OrgansController *_organs;  // Motors drivers
 
-	BufferedPort<ImageOf<PixelBgr> > _imagePortOut;  // image output port
-	int filterImage(ImageOf<PixelRgb> *);
-
 public:
 	Robot();
 	~Robot();

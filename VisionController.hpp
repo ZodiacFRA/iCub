@@ -14,8 +14,8 @@ class VisionController {
 private:
 	bool _receiveFlag;  // only used to reduce console I/O
 	BufferedPort<ImageOf<PixelRgb> > _imagePort;  // image input port
-	// BufferedPort<ImageOf<PixelBgr> > _imagePortOut;  // image output port
-	// int filterImage(ImageOf<PixelRgb> *);
+	BufferedPort<ImageOf<PixelBgr> > _imagePortOut;  // image output port
+	int filterImage(ImageOf<PixelRgb> *);
 
 public:
 	VisionController();
