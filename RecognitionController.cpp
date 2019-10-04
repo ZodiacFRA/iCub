@@ -24,7 +24,7 @@ int RecognitionController::recognize(ImageOf<PixelRgb> *image,
 	getTargetPosition(image, objects);
 
 	// Transform yarp image into openCV Mat
-	cv::Mat frame((IplImage*)image->getIplImage());
+	cv::Mat frame = new cv::Mat((IplImage*)image->getIplImage());
 	VisionController::filterImage(frame);
   cv::cvtColor(frame, frame, CV_RGB2BGR);
 
