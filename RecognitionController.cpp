@@ -3,7 +3,6 @@
 using namespace yarp::os;
 using namespace yarp::sig;
 using namespace yarp::dev;
-using namespace cv;
 
 
 RecognitionController::RecognitionController()
@@ -130,13 +129,13 @@ int RecognitionController::getTargetPosition(ImageOf<PixelRgb> *image, std::vect
 /* ------------------------------------------------------- */
 
 // convert yarp image to opencv data type
-Mat ToMat(const ImageOf<PixelRgb>& imageIn)
+cv::Mat ToMat(const ImageOf<PixelRgb>& imageIn)
 {
-	return Mat((IplImage*)imageIn.getIplImage());
+	return cv::Mat((IplImage*)imageIn.getIplImage());
 }
 
 // convert opencv to yarp data type
-ImageOf<PixelBgr> ToPixelBgr(const Mat& imageIn)
+ImageOf<PixelBgr> ToPixelBgr(const cv::Mat& imageIn)
 {
 	IplImage image(imageIn);
 	ImageOf<PixelBgr> imageOut;
@@ -147,7 +146,7 @@ ImageOf<PixelBgr> ToPixelBgr(const Mat& imageIn)
 int VisionController::filterImage(ImageOf<PixelRgb> *imageYarp)
 {
 
-  Mat /*image, */image_gray, grad;
+  cv::Mat /*image, */image_gray, grad;
   // char* window_name = "Sobel Demo - Simple Edge Detector";
   int scale = 1;
   int delta = 0;
@@ -159,30 +158,30 @@ int VisionController::filterImage(ImageOf<PixelRgb> *imageYarp)
 
   if (!image.data) { return -1; }
 
-  GaussianBlur( *image, image_gray, Size(3,3), 0, 0, BORDER_DEFAULT );
+  cv::GaussianBlur( *image, image_gray, Size(3,3), 0, 0, BORDER_DEFAULT );
 
   /// Convert it to gray
-  cvtColor( image_gray, image_gray, CV_BGR2GRAY );
+  cv::cvtColor( image_gray, image_gray, CV_BGR2GRAY );
 
   /// Create window
   // namedWindow( window_name, CV_WINDOW_AUTOSIZE );
 
   /// Generate grad_x and grad_y
-  Mat grad_x, grad_y;
-  Mat abs_grad_x, abs_grad_y;
+  cv::Mat grad_x, grad_y;
+  cv::Mat abs_grad_x, abs_grad_y;
 
   /// Gradient X
   //Scharr( src_gray, grad_x, ddepth, 1, 0, scale, delta, BORDER_DEFAULT );
-  Sobel(image_gray, grad_x, ddepth, 1, 0, 3, scale, delta, BORDER_DEFAULT);
-  convertScaleAbs(grad_x, abs_grad_x);
+  cv::Sobel(image_gray, grad_x, ddepth, 1, 0, 3, scale, delta, BORDER_DEFAULT);
+  cv::convertScaleAbs(grad_x, abs_grad_x);
 
   /// Gradient Y
   //Scharr( src_gray, grad_y, ddepth, 0, 1, scale, delta, BORDER_DEFAULT );
-  Sobel(image_gray, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT);
-  convertScaleAbs(grad_y, abs_grad_y);
+  cv::Sobel(image_gray, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT);
+  cv::convertScaleAbs(grad_y, abs_grad_y);
 
   /// Total Gradient (approximate)
-  addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad);
+  cv::addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad);
 
   // imshow( window_name, grad );
 	//**imageYarp = ToPixelRgb(grad);
