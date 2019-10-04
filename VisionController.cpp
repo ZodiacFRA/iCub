@@ -48,36 +48,43 @@ int VisionController::getRobotView(ImageOf<PixelRgb> **image)
 	return SUCCESS;
 }
 
-int VisionController::filterImage(ImageOf<PixelRgb> **image)
+// convert yarp image to opencv data type
+Mat ToMat(const ImageOf<PixelBgr>& imageIn)
+{
+	return Mat((IplImage*)imageIn.getIplImage());
+}
+
+// convert opencv to yarp data type
+ImageOf<PixelBgr> ToPixelBgr(const Mat& imageIn)
+{
+	IplImage image(imageIn);
+	ImageOf<PixelBgr> imageOut;
+	imageOut.wrapIplImage(&image);
+	return imageOut;
+}
+
+int VisionController::filterImage(ImageOf<PixelRgb> **imageYarp)
 {
 
-  Mat src, src_gray;
-  Mat grad;
+  Mat image, image_gray, grad;
   // char* window_name = "Sobel Demo - Simple Edge Detector";
   int scale = 1;
   int delta = 0;
   int ddepth = CV_16S;
-
   int c;
 
   /// Load an image
   // src = imread("face.jpg");
-	// TODO:
-	// ImageOf<PixelRgb> *yarp_img;
-	// src = cvarrToMat(static_cast<IplImage*>(yarp_img->getIplImage));
-	src = cvarrToMat(static_cast<IplImage*>((**image).getIplImage()));
 
-	// yarp::sig::ImageOf<yarp::sig::PixelRgb> yarpImage;
-	// cv::Mat cvImage1=yarp::cv::toCvMat(yarpImage);
-	// src = toCvMat(**image);
+	image = cvarrToMat(static_cast<IplImage*>((**imageYarp).getIplImage()));
+	// image = ToMat(**imageYarp);
 
-  if( !src.data )
-  { return -1; }
+  if (!image.data) { return -1; }
 
-  GaussianBlur( src, src, Size(3,3), 0, 0, BORDER_DEFAULT );
+  GaussianBlur( image, image, Size(3,3), 0, 0, BORDER_DEFAULT );
 
   /// Convert it to gray
-  cvtColor( src, src_gray, CV_BGR2GRAY );
+  cvtColor( image, image_gray, CV_BGR2GRAY );
 
   /// Create window
   // namedWindow( window_name, CV_WINDOW_AUTOSIZE );
@@ -88,16 +95,16 @@ int VisionController::filterImage(ImageOf<PixelRgb> **image)
 
   /// Gradient X
   //Scharr( src_gray, grad_x, ddepth, 1, 0, scale, delta, BORDER_DEFAULT );
-  Sobel( src_gray, grad_x, ddepth, 1, 0, 3, scale, delta, BORDER_DEFAULT );
-  convertScaleAbs( grad_x, abs_grad_x );
+  Sobel(image_gray, grad_x, ddepth, 1, 0, 3, scale, delta, BORDER_DEFAULT);
+  convertScaleAbs(grad_x, abs_grad_x);
 
   /// Gradient Y
   //Scharr( src_gray, grad_y, ddepth, 0, 1, scale, delta, BORDER_DEFAULT );
-  Sobel( src_gray, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT );
-  convertScaleAbs( grad_y, abs_grad_y );
+  Sobel(image_gray, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT);
+  convertScaleAbs(grad_y, abs_grad_y);
 
   /// Total Gradient (approximate)
-  addWeighted( abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad );
+  addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad);
 
   // imshow( window_name, grad );
 	// Mat grad2 = grad.clone();
@@ -108,7 +115,9 @@ int VisionController::filterImage(ImageOf<PixelRgb> **image)
 	// IplImage temp = grad;
 	// **image.wrapIplImage(&temp);
 
-	**image.setExternal(grad.data, grad.size[1], grad.size[0]);
+	// **image.setExternal(grad.data, grad.size[1], grad.size[0]);
+
+	**imageYarp = ToPixelBgr(grad);
 
   waitKey(0);
 
