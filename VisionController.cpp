@@ -71,7 +71,7 @@ ImageOf<PixelBgr> ToPixelBgr(const Mat& imageIn)
 	return imageOut;
 }
 
-int VisionController::filterImage(Mat image) // ImageOf<PixelRgb> *imageYarp)
+int VisionController::filterImage(Mat& image) // ImageOf<PixelRgb> *imageYarp)
 {
 
   Mat /*image, */image_gray, grad;
@@ -86,7 +86,7 @@ int VisionController::filterImage(Mat image) // ImageOf<PixelRgb> *imageYarp)
 
   if (!image.data) { return -1; }
 
-  GaussianBlur( image, image_gray, Size(3,3), 0, 0, BORDER_DEFAULT );
+  GaussianBlur( *image, image_gray, Size(3,3), 0, 0, BORDER_DEFAULT );
 
   /// Convert it to gray
   cvtColor( image_gray, image_gray, CV_BGR2GRAY );
