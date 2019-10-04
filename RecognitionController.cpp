@@ -161,7 +161,7 @@ int RecognitionController::filterImage(ImageOf<PixelRgb> *imageYarp)
   cv::GaussianBlur( image, image_gray, cv::Size(3,3), 0, 0, cv::BORDER_DEFAULT );
 
   /// Convert it to gray
-  cv::cvtColor( image_gray, image_gray, cv::CV_BGR2GRAY );
+  cv::cvtColor( image_gray, image_gray, CV_BGR2GRAY );
 
   /// Create window
   // namedWindow( window_name, CV_WINDOW_AUTOSIZE );
