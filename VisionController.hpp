@@ -20,7 +20,7 @@ public:
 	VisionController();
 	int init();
 	int getRobotView(ImageOf<PixelRgb> **);
-	static int filterImage(Mat);
+	static int filterImage(cv::Mat);
 };
 
 #endif
