@@ -16,8 +16,6 @@ class RecognitionController {
 private:
 	Vector _oldTargetPos;
 	cv::CascadeClassifier _cascade;
-	BufferedPort<ImageOf<PixelBgr> > _imagePortOut;  // image output port
-	int filterImage(ImageOf<PixelRgb> *);
 
 public:
 	RecognitionController();
