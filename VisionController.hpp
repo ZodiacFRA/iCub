@@ -15,12 +15,12 @@ private:
 	bool _receiveFlag;  // only used to reduce console I/O
 	BufferedPort<ImageOf<PixelRgb> > _imagePort;  // image input port
 	BufferedPort<ImageOf<PixelBgr> > _imagePortOut;  // image input port
-	int filterImage(ImageOf<PixelRgb> *);
 
 public:
 	VisionController();
 	int init();
 	int getRobotView(ImageOf<PixelRgb> **);
+	int filterImage(ImageOf<PixelRgb> *);
 };
 
 #endif

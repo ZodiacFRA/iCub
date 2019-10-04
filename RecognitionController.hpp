@@ -2,6 +2,7 @@
 #define RECOGNITION_CONTROLLER_HPP
 
 #include "common.hpp"
+#include "VisionController.hpp"
 
 #include "/usr/include/opencv2/objdetect/objdetect.hpp"
 #include "/usr/include/opencv2/highgui/highgui.hpp"

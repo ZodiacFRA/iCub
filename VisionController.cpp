@@ -51,7 +51,7 @@ int VisionController::getRobotView(ImageOf<PixelRgb> **image)
 		_receiveFlag = true;
 	}
 
-	filterImage(new ImageOf<PixelRgb>(**image));
+	// filterImage(new ImageOf<PixelRgb>(**image));
 
 	return SUCCESS;
 }
@@ -71,10 +71,10 @@ ImageOf<PixelBgr> ToPixelBgr(const Mat& imageIn)
 	return imageOut;
 }
 
-int VisionController::filterImage(ImageOf<PixelRgb> *imageYarp)
+int VisionController::filterImage(Mat image) // ImageOf<PixelRgb> *imageYarp)
 {
 
-  Mat image, image_gray, grad;
+  Mat /*image, */image_gray, grad;
   // char* window_name = "Sobel Demo - Simple Edge Detector";
   int scale = 1;
   int delta = 0;
@@ -82,14 +82,14 @@ int VisionController::filterImage(ImageOf<PixelRgb> *imageYarp)
   int c;
 
 	// image = cvarrToMat(static_cast<IplImage*>((**imageYarp).getIplImage()));
-	image = ToMat(*imageYarp);
+	// image = ToMat(*imageYarp);
 
   if (!image.data) { return -1; }
 
-  GaussianBlur( image, image, Size(3,3), 0, 0, BORDER_DEFAULT );
+  GaussianBlur( image, image_gray, Size(3,3), 0, 0, BORDER_DEFAULT );
 
   /// Convert it to gray
-  cvtColor( image, image_gray, CV_BGR2GRAY );
+  cvtColor( image_gray, image_gray, CV_BGR2GRAY );
 
   /// Create window
   // namedWindow( window_name, CV_WINDOW_AUTOSIZE );
@@ -118,7 +118,7 @@ int VisionController::filterImage(ImageOf<PixelRgb> *imageYarp)
   ImageOf<PixelBgr> &camOutObj = _imagePortOut.prepare();
   camOutObj.copy(ToPixelBgr(grad));
   _imagePortOut.write();
-	printf("Writing image in /videoStream/out port.\n");
+	printf("Writing image in /videoStream/out port.\n", COLOR_BLUE);
 
   waitKey(0);
 
