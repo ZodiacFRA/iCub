@@ -3,8 +3,7 @@
 using namespace yarp::os;
 using namespace yarp::sig;
 using namespace yarp::dev;
-// using namespace yarp::cv;
-using namespace cv;
+// using namespace cv;
 
 
 VisionController::VisionController()
@@ -21,12 +20,12 @@ int VisionController::init()
 	// send robot left eye cam stream to imagePort
 	Network::connect("/icubSim/cam/left", "/videoStream/in");
 
-	// output video stream to screen
-  if (!_imagePortOut.open("/videoStream/out")) {
-		printf("%sCould not init video out stream%s\n", COLOR_RED, COLOR_RESET);
-		return FAILURE;
-	}
-  Network::connect("/videoStream/out", "/view/left");
+	// // output video stream to screen
+  // if (!_imagePortOut.open("/videoStream/out")) {
+	// 	printf("%sCould not init video out stream%s\n", COLOR_RED, COLOR_RESET);
+	// 	return FAILURE;
+	// }
+  // Network::connect("/videoStream/out", "/view/left");
 
 	return SUCCESS;
 }
@@ -56,71 +55,71 @@ int VisionController::getRobotView(ImageOf<PixelRgb> **image)
 	return SUCCESS;
 }
 
-// convert yarp image to opencv data type
-Mat ToMat(const ImageOf<PixelRgb>& imageIn)
-{
-	return Mat((IplImage*)imageIn.getIplImage());
-}
-
-// convert opencv to yarp data type
-ImageOf<PixelBgr> ToPixelBgr(const Mat& imageIn)
-{
-	IplImage image(imageIn);
-	ImageOf<PixelBgr> imageOut;
-	imageOut.wrapIplImage(&image);
-	return imageOut;
-}
-
-static int VisionController::filterImage(Mat image) // ImageOf<PixelRgb> *imageYarp)
-{
-
-  Mat /*image, */image_gray, grad;
-  // char* window_name = "Sobel Demo - Simple Edge Detector";
-  int scale = 1;
-  int delta = 0;
-  int ddepth = CV_16S;
-  int c;
-
-	// image = cvarrToMat(static_cast<IplImage*>((**imageYarp).getIplImage()));
-	// image = ToMat(*imageYarp);
-
-  if (!image.data) { return -1; }
-
-  GaussianBlur( *image, image_gray, Size(3,3), 0, 0, BORDER_DEFAULT );
-
-  /// Convert it to gray
-  cvtColor( image_gray, image_gray, CV_BGR2GRAY );
-
-  /// Create window
-  // namedWindow( window_name, CV_WINDOW_AUTOSIZE );
-
-  /// Generate grad_x and grad_y
-  Mat grad_x, grad_y;
-  Mat abs_grad_x, abs_grad_y;
-
-  /// Gradient X
-  //Scharr( src_gray, grad_x, ddepth, 1, 0, scale, delta, BORDER_DEFAULT );
-  Sobel(image_gray, grad_x, ddepth, 1, 0, 3, scale, delta, BORDER_DEFAULT);
-  convertScaleAbs(grad_x, abs_grad_x);
-
-  /// Gradient Y
-  //Scharr( src_gray, grad_y, ddepth, 0, 1, scale, delta, BORDER_DEFAULT );
-  Sobel(image_gray, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT);
-  convertScaleAbs(grad_y, abs_grad_y);
-
-  /// Total Gradient (approximate)
-  addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad);
-
-  // imshow( window_name, grad );
-	//**imageYarp = ToPixelRgb(grad);
-
-	// write processed eye-view
-  ImageOf<PixelBgr> &camOutObj = _imagePortOut.prepare();
-  camOutObj.copy(ToPixelBgr(grad));
-  _imagePortOut.write();
-	printf("Writing image in /videoStream/out port.\n", COLOR_BLUE);
-
-  waitKey(0);
-
-  return 0;
-}
+// // convert yarp image to opencv data type
+// Mat ToMat(const ImageOf<PixelRgb>& imageIn)
+// {
+// 	return Mat((IplImage*)imageIn.getIplImage());
+// }
+//
+// // convert opencv to yarp data type
+// ImageOf<PixelBgr> ToPixelBgr(const Mat& imageIn)
+// {
+// 	IplImage image(imageIn);
+// 	ImageOf<PixelBgr> imageOut;
+// 	imageOut.wrapIplImage(&image);
+// 	return imageOut;
+// }
+//
+// int VisionController::filterImage(ImageOf<PixelRgb> *imageYarp)
+// {
+//
+//   Mat /*image, */image_gray, grad;
+//   // char* window_name = "Sobel Demo - Simple Edge Detector";
+//   int scale = 1;
+//   int delta = 0;
+//   int ddepth = CV_16S;
+//   int c;
+//
+// 	// image = cvarrToMat(static_cast<IplImage*>((**imageYarp).getIplImage()));
+// 	// image = ToMat(*imageYarp);
+//
+//   if (!image.data) { return -1; }
+//
+//   GaussianBlur( *image, image_gray, Size(3,3), 0, 0, BORDER_DEFAULT );
+//
+//   /// Convert it to gray
+//   cvtColor( image_gray, image_gray, CV_BGR2GRAY );
+//
+//   /// Create window
+//   // namedWindow( window_name, CV_WINDOW_AUTOSIZE );
+//
+//   /// Generate grad_x and grad_y
+//   Mat grad_x, grad_y;
+//   Mat abs_grad_x, abs_grad_y;
+//
+//   /// Gradient X
+//   //Scharr( src_gray, grad_x, ddepth, 1, 0, scale, delta, BORDER_DEFAULT );
+//   Sobel(image_gray, grad_x, ddepth, 1, 0, 3, scale, delta, BORDER_DEFAULT);
+//   convertScaleAbs(grad_x, abs_grad_x);
+//
+//   /// Gradient Y
+//   //Scharr( src_gray, grad_y, ddepth, 0, 1, scale, delta, BORDER_DEFAULT );
+//   Sobel(image_gray, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT);
+//   convertScaleAbs(grad_y, abs_grad_y);
+//
+//   /// Total Gradient (approximate)
+//   addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad);
+//
+//   // imshow( window_name, grad );
+// 	//**imageYarp = ToPixelRgb(grad);
+//
+// 	// write processed eye-view
+//   ImageOf<PixelBgr> &camOutObj = _imagePortOut.prepare();
+//   camOutObj.copy(ToPixelBgr(grad));
+//   _imagePortOut.write();
+// 	printf("Writing image in /videoStream/out port.\n", COLOR_BLUE);
+//
+//   waitKey(0);
+//
+//   return 0;
+// }

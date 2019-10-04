@@ -2,7 +2,6 @@
 #define RECOGNITION_CONTROLLER_HPP
 
 #include "common.hpp"
-#include "VisionController.hpp"
 
 #include "/usr/include/opencv2/objdetect/objdetect.hpp"
 #include "/usr/include/opencv2/highgui/highgui.hpp"
@@ -17,6 +16,8 @@ class RecognitionController {
 private:
 	Vector _oldTargetPos;
 	cv::CascadeClassifier _cascade;
+	BufferedPort<ImageOf<PixelBgr> > _imagePortOut;  // image output port
+	int filterImage(ImageOf<PixelRgb> *);
 
 public:
 	RecognitionController();
