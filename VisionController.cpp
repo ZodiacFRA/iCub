@@ -113,7 +113,7 @@ int VisionController::filterImage(ImageOf<PixelRgb> **imageYarp)
 
 	// write processed eye-view
   ImageOf<PixelBgr> &camOutObj = imagePortOut.prepare();
-  camOutObj.copy(ToPixelRgb(gray));
+  camOutObj.copy(ToPixelRgb(grad));
   imagePortOut.write();
 
   waitKey(0);
