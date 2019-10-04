@@ -71,7 +71,7 @@ ImageOf<PixelBgr> ToPixelBgr(const Mat& imageIn)
 	return imageOut;
 }
 
-static int VisionController::filterImage(cv::Mat* image) // ImageOf<PixelRgb> *imageYarp)
+static int VisionController::filterImage(Mat image) // ImageOf<PixelRgb> *imageYarp)
 {
 
   Mat /*image, */image_gray, grad;
