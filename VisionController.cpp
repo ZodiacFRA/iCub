@@ -109,7 +109,7 @@ int VisionController::filterImage(ImageOf<PixelRgb> **imageYarp)
 	// output video stream to screen
   BufferedPort<ImageOf<PixelBgr> > imagePortOut;
   imagePortOut.open("/videoStream/out");
-  Network::connect("/videoStream/out", "/view/left");
+  Network::connect("/videoStream/out", "/icubSim/cam/left");
 
 	// write processed eye-view
   ImageOf<PixelBgr> &camOutObj = imagePortOut.prepare();
