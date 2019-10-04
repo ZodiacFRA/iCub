@@ -82,10 +82,10 @@ int VisionController::filterImage(ImageOf<PixelRgb> *imageYarp)
   int ddepth = CV_16S;
   int c;
 
-	// image = cvarrToMat(static_cast<IplImage*>((**imageYarp).getIplImage()));
+	// img = cvarrToMat(static_cast<IplImage*>((**imageYarp).getIplImage()));
 	img = ToMat(*imageYarp);
 
-  if (!image.data) { return -1; }
+  if (!img.data) { return -1; }
 
   GaussianBlur( img, img_gray, Size(3,3), 0, 0, BORDER_DEFAULT );
 
