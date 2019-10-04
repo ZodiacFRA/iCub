@@ -20,6 +20,14 @@ int VisionController::init()
 	}
 	// send robot left eye cam stream to imagePort
 	Network::connect("/icubSim/cam/left", "/videoStream/in");
+
+	// output video stream to screen
+  if (!_imagePortOut.open("/videoStream/out")) {
+		printf("%sCould not init video out stream%s\n", COLOR_RED, COLOR_RESET);
+		return FAILURE;
+	}
+  Network::connect("/videoStream/out", "/view/left");
+
 	return SUCCESS;
 }
 
@@ -43,7 +51,7 @@ int VisionController::getRobotView(ImageOf<PixelRgb> **image)
 		_receiveFlag = true;
 	}
 
-	// filterImage(image);
+	filterImage(image);
 
 	return SUCCESS;
 }
@@ -55,10 +63,10 @@ Mat ToMat(const ImageOf<PixelRgb>& imageIn)
 }
 
 // convert opencv to yarp data type
-ImageOf<PixelRgb> ToPixelRgb(const Mat& imageIn)
+ImageOf<PixelBgr> ToPixelBgr(const Mat& imageIn)
 {
 	IplImage image(imageIn);
-	ImageOf<PixelRgb> imageOut;
+	ImageOf<PixelBgr> imageOut;
 	imageOut.wrapIplImage(&image);
 	return imageOut;
 }
@@ -106,19 +114,10 @@ int VisionController::filterImage(ImageOf<PixelRgb> **imageYarp)
   // imshow( window_name, grad );
 	//**imageYarp = ToPixelRgb(grad);
 
-	// output video stream to screen
-  BufferedPort<ImageOf<PixelBgr> > imagePortOut;
-	if (!imagePortOut.open("/videoStream/out")) {
-		printf("%sCould not init video out stream%s\n", COLOR_RED, COLOR_RESET);
-		return FAILURE;
-	}
-  //Network::connect("/videoStream/out", "/view/left");
-
 	// write processed eye-view
-  ImageOf<PixelBgr> &camOutObj = imagePortOut.prepare();
-  camOutObj.copy(ToPixelRgb(grad));
-  imagePortOut.write();
-
+  ImageOf<PixelBgr> &camOutObj = _imagePortOut.prepare();
+  camOutObj.copy(ToPixelBgr(grad));
+  _imagePortOut.write();
 	printf("Writing image in /videoStream/out port.\n");
 
   waitKey(0);
