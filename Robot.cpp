@@ -48,7 +48,7 @@ int Robot::launch()
 		_image = NULL;
 		this->_vision.getRobotView(&_image);
 
-		printf(*_image);
+		printf(_image);
 
 		_faces.clear();
 		_objects.clear();
