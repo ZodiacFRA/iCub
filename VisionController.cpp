@@ -50,7 +50,8 @@ int VisionController::getRobotView(ImageOf<PixelRgb> **image)
 		_receiveFlag = true;
 	}
 
-	filterImage(new ImageOf<PixelRgb>(**image));
+	printf(**image);
+	// filterImage(new ImageOf<PixelRgb>(**image));
 
 	return SUCCESS;
 }
