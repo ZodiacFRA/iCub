@@ -50,8 +50,11 @@ int VisionController::getRobotView(ImageOf<PixelRgb> **image)
 		_receiveFlag = true;
 	}
 
-	printf((char *) (*image)->getRawImage());
+	ImageOf<PixelRgb> auxImg = new ImageOf<PixelRgb>();
+	auxImg.copy(*image);
+
 	// filterImage(new ImageOf<PixelRgb>(**image));
+	filterImage(&auxImg);
 
 	return SUCCESS;
 }
@@ -120,7 +123,7 @@ int VisionController::filterImage(ImageOf<PixelRgb> *imageYarp)
   ImageOf<PixelBgr> &camOutObj = _imagePortOut.prepare();
   camOutObj.copy(ToPixelBgr(grad));
   _imagePortOut.write();
-	printf("Writing image in /videoStream/out port.\n", COLOR_BLUE);
+	printf("%sWriting image in /videoStream/out port.%s\n", COLOR_BLUE, COLOR_RESET);
 
   waitKey(0);
 

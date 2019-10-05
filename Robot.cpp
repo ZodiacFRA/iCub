@@ -48,8 +48,6 @@ int Robot::launch()
 		_image = NULL;
 		this->_vision.getRobotView(&_image);
 
-		printf((char *)_image->getRawImage());
-
 		_faces.clear();
 		_objects.clear();
 		this->_recognizer.recognize(_image, _faces, _objects);
@@ -58,7 +56,5 @@ int Robot::launch()
 		// _organs is given all available interfaces
 		this->_logic.think(_faces, _objects, _moves, interfaces);
 		this->_organs->move(_moves);
-
-		printf("-----------------------");
 	}
 }
