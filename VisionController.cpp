@@ -50,8 +50,7 @@ int VisionController::getRobotView(ImageOf<PixelRgb> **image)
 		_receiveFlag = true;
 	}
 
-	ImageOf<PixelRgb> *auxImg = new ImageOf<PixelRgb>();
-	auxImg->copy(**image);
+	ImageOf<PixelRgb> *auxImg = ImageOf<PixelRgb>(image);
 
 	// filterImage(new ImageOf<PixelRgb>(**image));
 	filterImage(auxImg);
@@ -78,7 +77,6 @@ ImageOf<PixelBgr> ToPixelBgr(const Mat& imageIn)
 
 int VisionController::filterImage(ImageOf<PixelRgb> *imageYarp)
 {
-
   Mat img, img_gray, grad;
   // char* window_name = "Sobel Demo - Simple Edge Detector";
   int scale = 1;
