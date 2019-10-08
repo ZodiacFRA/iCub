@@ -124,7 +124,7 @@ int VisionController::filterImage(ImageOf<PixelRgb> *imageYarp)
   _imagePortOut.write();
 	printf("%sWriting image in /videoStream/out port.%s\n", COLOR_BLUE, COLOR_RESET);
 
-  waitKey(0);
+  // waitKey(0);
 
   return 0;
 }
