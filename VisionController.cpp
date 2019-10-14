@@ -20,7 +20,7 @@ VisionController::VisionController()
 		// send robot left eye cam stream to imagePort
 		Network::connect("/icubSim/cam/left", "/videoStream/in");
 
-		// output video stream to screen
+		// output video stream to separate window
 		if (!_imagePortOut.open("/videoStream/out")) {
 			printf("%sCould not init video out stream%s\n", COLOR_RED, COLOR_RESET);
 			return FAILURE;
@@ -106,7 +106,7 @@ int VisionController::filterImage(ImageOf<PixelRgb> *imageYarp)
 	ImageOf<PixelBgr> &camOutObj = _imagePortOut.prepare();
 	camOutObj.copy(ToPixelBgr(grad));
 	_imagePortOut.write();
-	printf("%sWriting image in /videoStream/out port.%s\n", COLOR_BLUE, COLOR_RESET);
+	// printf("%sWriting image in /videoStream/out port.%s\n", COLOR_BLUE, COLOR_RESET);
 
 	return SUCCESS;
 }
