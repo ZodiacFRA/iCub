@@ -1,3 +1,13 @@
+/*
+ * The controller reads the image from the input port. Then applies a linear
+ * filter to a copy of this image. The result of this transformation is sent to
+ * the output port after.
+ *
+ * @author Cesar Gutierrez Carrero
+ *
+ */
+
+
 #include "VisionController.hpp"
 
 using namespace yarp::os;
@@ -12,15 +22,15 @@ VisionController::VisionController()
 
 	int VisionController::init()
 	{
-		// open image input port
+		// Open image input port
 		if (!_imagePort.open("/videoStream/in")) {
 			printf("%sCould not init video stream%s\n", COLOR_RED, COLOR_RESET);
 			return FAILURE;
 		}
-		// send robot left eye cam stream to imagePort
+		// Send robot left eye cam stream to imagePort
 		Network::connect("/icubSim/cam/left", "/videoStream/in");
 
-		// output video stream to separate window
+		// Output video stream to separate window
 		if (!_imagePortOut.open("/videoStream/out")) {
 			printf("%sCould not init video out stream%s\n", COLOR_RED, COLOR_RESET);
 			return FAILURE;
@@ -35,7 +45,7 @@ VisionController::VisionController()
 	{
 		*image = _imagePort.read();
 
-		if (*image == NULL) { // check we actually got something
+		if (*image == NULL) { // Check we actually got something
 			printf("%sNo video stream%s\n", COLOR_YELLOW, COLOR_RESET);
 			_receiveFlag = false;
 			return FAILURE;
@@ -53,20 +63,19 @@ VisionController::VisionController()
 	ImageOf<PixelRgb> *auxImg = new ImageOf<PixelRgb>();
 	auxImg->copy(**image);
 
-	// filterImage(new ImageOf<PixelRgb>(**image));
 	filterImage(auxImg);
 
 	return SUCCESS;
 }
 
 
-// convert yarp image to opencv data type
+// Convert yarp image to opencv data type
 Mat ToMat(const ImageOf<PixelRgb>& imageIn)
 {
 	return Mat((IplImage*)imageIn.getIplImage());
 }
 
-// convert opencv to yarp data type
+// Convert openCV to yarp data type
 ImageOf<PixelBgr> ToPixelBgr(const Mat& imageIn)
 {
 	IplImage image(imageIn);
@@ -87,7 +96,7 @@ int VisionController::filterImage(ImageOf<PixelRgb> *imageYarp)
 	int c;
 
 	GaussianBlur( img, img_gray, Size(3,3), 0, 0, BORDER_DEFAULT );
-	cvtColor( img_gray, img_gray, CV_BGR2GRAY );  // Convert it to gray
+	cvtColor( img_gray, img_gray, CV_BGR2GRAY );  // Convert it to grayscale
 
 	/// Generate grad_x and grad_y
 	Mat grad_x, grad_y;

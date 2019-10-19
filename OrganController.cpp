@@ -1,3 +1,13 @@
+/*
+ * This class is meant to control each organ individually. The move function
+ * changes the position of the organ according to the vector passed by the
+ * OrgansController.
+ *
+ * @author Jean-Baptiste Dupuy
+ *
+ */
+
+
 #include "OrganController.hpp"
 
 using namespace yarp::os;
@@ -53,6 +63,7 @@ int OrganController::init()
 	_driver->view(_pos);
 	_driver->view(_vel);
 	_driver->view(_enc);
+
 	// Check if the driver failed to set the values
 	if (_pos == NULL || _vel == NULL || _enc == NULL) {
 		printf("%sCannot get %s's interface%s\n",

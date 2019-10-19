@@ -1,3 +1,14 @@
+/*
+ * This controller is responsible for detecting faces and objects. At first,
+ * the controller looks for a green object. Secondly, it detects faces in the
+ * image. Finally, the position of the faces and objects detected in the image
+ * is shared with the robot.
+ *
+ * @author Marco Casadio
+ *
+ */
+
+
 #include "RecognitionController.hpp"
 
 using namespace yarp::os;
@@ -40,15 +51,15 @@ int RecognitionController::getFacesPositions(cv::Mat &img,
     std::vector<cv::Rect> CVfaces;
     cv::Mat gray, smallImg;
 
-    cvtColor(img, gray, cv::COLOR_BGR2GRAY); // Convert to Gray Scale
+    cvtColor(img, gray, cv::COLOR_BGR2GRAY); // Convert to grayscale
 
-    // Resize the Grayscale Image
+    // Resize the grayscale image
     resize(gray, smallImg, cv::Size(), 1, 1, cv::INTER_LINEAR);
     equalizeHist(smallImg, smallImg);
     // Detect faces of different sizes using cascade classifier
     cascade.detectMultiScale(smallImg, CVfaces, 1.1,2, 0|cv::CASCADE_SCALE_IMAGE, cv::Size(30, 30));
 
-	// printf("size=%d\n\0", CVfaces.size());
+		// printf("size=%d\n\0", CVfaces.size());
     // Draw circles around the faces
     for (auto r : CVfaces) {
         cv::Point center;
@@ -78,7 +89,7 @@ int RecognitionController::getTargetPosition(ImageOf<PixelRgb> *image, std::vect
 	for (int x = 0; x < image->width(); x++) {
 		for (int y = 0; y < image->height(); y++) {
 			PixelRgb& pixel = image->pixel(x, y);
-			// check if blue level exceeds red and green by a factor of 2
+			// Check if green level exceeds blue and red by a factor of 2
 			if (pixel.g > pixel.b * 1.2 + 10 && pixel.g > pixel.r * 1.2 + 10) {
 				pixelsCount++;
 				xMean += x;
@@ -86,7 +97,7 @@ int RecognitionController::getTargetPosition(ImageOf<PixelRgb> *image, std::vect
 			}
 		}
 	}
-	if (pixelsCount > 0) {  // get the average location of blue pixels
+	if (pixelsCount > 0) {  // Get the average location of green pixels
 		xMean /= pixelsCount;
 		yMean /= pixelsCount;
 	}

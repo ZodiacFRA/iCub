@@ -1,9 +1,12 @@
+/*
+ * @author Jean-Baptiste Dupuy
+ *
+ */
+
+
 #include "Robot.hpp"
 
 int main(int argc, char const **argv) {
-
-	// Robot robot;
-	// robot.filter();
 
 	Robot robot;
 	if (robot.init() == FAILURE) {
@@ -12,8 +15,11 @@ int main(int argc, char const **argv) {
 			COLOR_RESET);
 		return FAILURE;
 	}
+
 	printf("%s---------------------\n| Robot operational |\n---------------------%s\n",
 		COLOR_GREEN,
 		COLOR_RESET);
+
 	return robot.launch();
+
 }

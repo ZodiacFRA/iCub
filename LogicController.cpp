@@ -1,3 +1,14 @@
+/*
+ * The controller decides what actions or movements the robot has to perform.
+ * We prioritize facial recognition, if there are more than one face it will
+ * choose the closest. Then, it calculates the necessary movements to
+ * look at the target and updates the movements vector.
+ *
+ * @author Birthe Nesset
+ *
+ */
+
+
 #include "LogicController.hpp"
 
 using namespace yarp::os;
@@ -30,7 +41,7 @@ int LogicController::think(std::vector<Vector> &faces,
 
 	for (int i = 0 ; i < 6 ; i++)  // Reset the vector
 		moveVector[i] = 0;
-	if (faces.size() > 0) {  // target faces in priority
+	if (faces.size() > 0) {  // Target faces in priority
 		moves["/icubSim/right_arm"] = _movementsDict["hello"];
 		if (faces.size() == 1)
 			visualTarget = faces[0];
@@ -43,7 +54,7 @@ int LogicController::think(std::vector<Vector> &faces,
 		visualTarget[1] = 240 / 2;
 		visualTarget[2] = 0;
 	}
-	// transform target position to eyes positions
+	// Transform target position to eyes positions
 	double x = visualTarget[0] - (320 / 2);
 	double y = -(visualTarget[1] - (240 / 2));
 	moveVector[4] = x / 2;

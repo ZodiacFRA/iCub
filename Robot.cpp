@@ -1,3 +1,9 @@
+/*
+ * @author Jean-Baptiste Dupuy
+ *
+ */
+
+
 #include "Robot.hpp"
 
 using namespace yarp::os;
@@ -13,11 +19,11 @@ Robot::Robot()
 
 Robot::~Robot()
 {
-	// _image is already deleted by the destructor of _imagePort which is
-	// called by the default destructor of _visionController
+	/* _image is already deleted by the destructor of _imagePort which is
+	 * called by the default destructor of _visionController
+	 */
 	if (_organs)
 		delete _organs;
-	// Yarp still leaks 32 bytes of memory, cannot be fixed from here
 }
 
 int Robot::init()
