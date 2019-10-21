@@ -86,10 +86,10 @@ ImageOf<PixelBgr> ToPixelBgr(const Mat& imageIn)
 
 int VisionController::filterImage(ImageOf<PixelRgb> *imageYarp)
 {
+	Mat img, img_gray, grad;
 	img = ToMat(*imageYarp);
 	if (!img.data)
 		return FAILURE;
-	Mat img, img_gray, grad;
 	int scale = 1;
 	int delta = 0;
 	int ddepth = CV_16S;
